@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDefs } from "./arrow-defs";
 import { sceneTheme } from "./scene-theme";
 import { fmt, GRAVITY } from "./format";
+import { KatexFormula } from "@/components/katex-formula";
 
 const VIEW_W = 360;
 const VIEW_H = 320;
@@ -18,6 +19,11 @@ const BALL_RADIUS = 9;
 const V_SCALE = 2.5; // px per (m/s), fixed so the arrow never rescales with h0
 const ACCEL_ARROW_LEN = 48;
 const ACCEL_OFFSET_X = 28;
+// The fall itself only lasts 1-3 real seconds, too fast to read the changing
+// numbers - play it in slow motion. The physics is still real (x(t)/v(t)
+// integrated each frame), just time-dilated, the same way a slow-motion
+// camera doesn't change what actually happened.
+const TIME_SCALE = 0.3;
 
 function heightToY(height: number): number {
   return GROUND_Y - height * PX_PER_METER;
@@ -115,7 +121,7 @@ export function FreeFallScene() {
 
     const tick = (now: number) => {
       if (lastFrameRef.current === null) lastFrameRef.current = now;
-      const dt = (now - lastFrameRef.current) / 1000;
+      const dt = ((now - lastFrameRef.current) / 1000) * TIME_SCALE;
       lastFrameRef.current = now;
       elapsedRef.current = Math.min(elapsedRef.current + dt, fallTime);
       applyState(elapsedRef.current);
@@ -207,6 +213,13 @@ export function FreeFallScene() {
 
   return (
     <div className="card stack-sm free-fall-scene">
+      <p style={{ fontSize: 14, color: "var(--muted)", margin: 0 }}>
+        Jism faqat tortishish tezlanishi <KatexFormula formula="g" /> ta&apos;sirida tushadi: tezlik{" "}
+        <KatexFormula formula="v" /> vaqt bilan <strong>chiziqli</strong> ortadi, bosib o&apos;tilgan masofa esa{" "}
+        <strong>kvadratik</strong> ortadi. Boshlang&apos;ich balandlikni belgilash uchun sharchani torting, so&apos;ng
+        &ldquo;Boshlash&rdquo; tugmasini bosing.
+      </p>
+
       <svg
         ref={svgRef}
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -334,6 +347,15 @@ export function FreeFallScene() {
           </text>
         </g>
       </svg>
+
+      <div style={{ display: "flex", gap: 20, fontSize: 15 }}>
+        <span style={{ color: sceneTheme.color.velocity }}>
+          <KatexFormula formula="v = g \cdot t" />
+        </span>
+        <span style={{ color: "var(--ink)" }}>
+          <KatexFormula formula="h = h_0 - \tfrac{1}{2} g t^2" />
+        </span>
+      </div>
 
       <div style={{ display: "flex", gap: 20 }}>
         <div>
