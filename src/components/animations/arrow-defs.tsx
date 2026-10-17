@@ -3,6 +3,8 @@ const MARKER_COLORS = {
   accent: "var(--accent)",
   muted: "var(--quiet)",
   blue: "var(--force-normal)",
+  velocity: "var(--quantity-velocity)",
+  acceleration: "var(--good)",
 } as const;
 
 export type ArrowColorKey = keyof typeof MARKER_COLORS;
