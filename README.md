@@ -87,7 +87,7 @@ docker compose --profile prod run --rm migrate npx prisma migrate deploy
 docker compose --profile prod run --rm migrate npm run db:seed
 ```
 
-Ilova konteyner ichida `3000`-portda ishlaydi va host'da ham `3000`-portga bog'langan (`docker-compose.yml`).
+Ilova konteyner ichida `3000`-portda ishlaydi va host'da ham shu portga bog'langan. Agar serverda `3000` band bo'lsa (masalan boshqa loyiha shu portni ishlatayotgan bo'lsa), `.env`da `APP_PORT="..."` qo'shib boshqa portga ko'chirish mumkin — Nginx/Caddy konfiguratsiyasida ham o'sha portni ko'rsating.
 
 ### 5.3. Nginx (HTTPS bilan)
 

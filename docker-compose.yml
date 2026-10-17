@@ -38,7 +38,7 @@ services:
       NODE_ENV: production
       PORT: "3000"
     ports:
-      - "3000:3000"
+      - "${APP_PORT:-3000}:3000"
 
   # One-off tasks (migrations, seeding) need the real `prisma` CLI, the
   # generated client, and dev tooling like `tsx`/`dotenv` — none of which
