@@ -82,9 +82,9 @@ docker compose up -d db
 docker compose --profile prod up -d app
 
 # Migratsiyalarni ishga tushirish (birinchi marta va har bir yangi migratsiyadan keyin):
-docker compose --profile prod run --rm app npx prisma migrate deploy
+docker compose --profile prod run --rm migrate npx prisma migrate deploy
 # Boshlang'ich kontent (ixtiyoriy, birinchi marta):
-docker compose --profile prod run --rm app npm run db:seed
+docker compose --profile prod run --rm migrate npm run db:seed
 ```
 
 Ilova konteyner ichida `3000`-portda ishlaydi va host'da ham `3000`-portga bog'langan (`docker-compose.yml`).
@@ -133,7 +133,7 @@ Keyin BotFather'da `/setdomain` va Mini App manzilini `https://fizzo.app` qilib 
 ```bash
 git pull
 docker compose --profile prod build app
-docker compose --profile prod run --rm app npx prisma migrate deploy
+docker compose --profile prod run --rm migrate npx prisma migrate deploy
 docker compose --profile prod up -d app
 ```
 

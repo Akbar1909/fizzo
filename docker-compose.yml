@@ -40,5 +40,27 @@ services:
     ports:
       - "3000:3000"
 
+  # One-off tasks (migrations, seeding) need the real `prisma` CLI, the
+  # generated client, and dev tooling like `tsx`/`dotenv` — none of which
+  # exist in the slim `app` runtime image (Next.js standalone output only
+  # bundles what `next start` itself needs). The `builder` stage already has
+  # all of it, so reuse it here instead of bloating the production image.
+  # Usage: docker compose --profile prod run --rm migrate npx prisma migrate deploy
+  #        docker compose --profile prod run --rm migrate npm run db:seed
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+      args:
+        NEXT_PUBLIC_TELEGRAM_BOT_USERNAME: ${NEXT_PUBLIC_TELEGRAM_BOT_USERNAME}
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: ${NEXT_PUBLIC_GA_MEASUREMENT_ID}
+    profiles: ["prod"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://fizzo:fizzo@db:5432/fizzo?schema=public
+
 volumes:
   fizzo_db_data:
