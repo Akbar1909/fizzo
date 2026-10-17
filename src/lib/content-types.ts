@@ -42,6 +42,8 @@ export type QuestionAnswer = Y1Answer | Y2Answer | OAnswer;
 
 export interface SolutionStep {
   text: string;
+  /** Optional one-line real-world context, shown de-emphasized below the step. Never affects the answer/check. */
+  note?: string;
 }
 
 export type QuestionSolution = SolutionStep[];

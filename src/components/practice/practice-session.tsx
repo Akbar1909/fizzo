@@ -245,7 +245,14 @@ export function PracticeSession({
               >
                 <div style={{ display: "flex", gap: 10 }}>
                   <span style={{ fontWeight: 700, color: "var(--accent)" }}>{i + 1}.</span>
-                  <MarkdownMath>{s.text}</MarkdownMath>
+                  <div>
+                    <MarkdownMath>{s.text}</MarkdownMath>
+                    {s.note && (
+                      <p style={{ marginTop: 6, fontSize: 13, color: "var(--muted)", fontStyle: "italic" }}>
+                        {s.note}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
