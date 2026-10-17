@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fizzo — fizikadan milliy sertifikatga tayyorgarlik</title>
+<meta name="description" content="Fizikadan milliy sertifikatga o'zbek tilida bepul tayyorgarlik: rasmiy 5 bo'lim, animatsiyali yechimlar va 45 savollik mock testlar.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&amp;family=Onest:wght@400;500;600;700;800&amp;family=STIX+Two+Text:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1B2430}
+.m{font-family:'STIX Two Text',serif;font-style:italic}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.h2{margin:0;font-weight:800;font-size:clamp(28px,3.4vw,40px);line-height:1.15;letter-spacing:-0.02em}
+.lead{margin:14px 0 0;font-size:18px;line-height:1.6;color:#4A5360;max-width:640px}
+.kicker{display:inline-block;font-size:14px;font-weight:600;color:#C2410C}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;border-radius:14px;background:#C2410C;color:#FFFFFF;font-weight:700;font-size:17px;text-decoration:none}
+.btn:hover{background:#9A3412;color:#FFFFFF}
+.btn2{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 24px;border-radius:14px;background:#FFFFFF;border:1px solid #E2DBCC;color:#1B2430;font-weight:600;font-size:16px;text-decoration:none}
+.btn2:hover{border-color:#1B2430;color:#1B2430}
+.card{background:#FFFFFF;border:1px solid #EAE3D5;border-radius:20px}
+.navlink{color:#3A4552;text-decoration:none;font-size:15px;font-weight:500}
+.navlink:hover{color:#C2410C}
+details summary{cursor:pointer;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details[open] .plus{transform:rotate(45deg)}
+.plus{transition:transform .2s ease;flex:none}
+@keyframes swing{0%,100%{transform:rotate(14deg)}50%{transform:rotate(-14deg)}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.swing{transform-origin:258px 70px;animation:swing 2.6s ease-in-out infinite}
+.orbit{transform-origin:96px 96px;animation:orbit 9s linear infinite}
+@media (prefers-reduced-motion: reduce){.swing,.orbit{animation:none}}
+</style>
+</head>
+<body>
+<div style="font-family: 'Onest', sans-serif; color: #1B2430; background: #F6F1E7; min-height: 100vh">
+
+  <header class="wrap" style="padding-top: 18px; padding-bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px">
+    <a href="#" aria-label="Fizzo bosh sahifa" style="display: flex; align-items: center; gap: 10px; text-decoration: none">
+      <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#1B2430"></rect><line x1="21" y1="13" x2="43" y2="13" stroke="#F6F3EC" stroke-width="3.5" stroke-linecap="round"></line><polyline points="32,13 32,17 25,18.7 39,22 25,25.3 39,28.7 25,32 39,35.3 32,37 32,41" fill="none" stroke="#F6F3EC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline><circle cx="32" cy="48.5" r="7.5" fill="#C2410C"></circle></svg>
+      <span style="font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.02em">fizzo<span style="color: #C2410C">.</span></span>
+    </a>
+    <nav aria-label="Asosiy" style="display: flex; flex-wrap: wrap; gap: 6px 26px">
+      <a class="navlink" href="#sertifikat">Milliy sertifikat</a>
+      <a class="navlink" href="#bolimlar">Bo'limlar</a>
+      <a class="navlink" href="#imkoniyatlar">Imkoniyatlar</a>
+      <a class="navlink" href="#savollar">Savol-javob</a>
+    </nav>
+    <div style="margin-left: auto; display: flex; gap: 10px; align-items: center">
+      <a class="navlink" href="#" style="font-weight: 600">Kirish</a>
+      <a class="btn" href="#" style="min-height: 44px; padding: 0 18px; font-size: 15px; border-radius: 12px">Bepul boshlash</a>
+    </div>
+  </header>
+
+  <section class="wrap" style="padding-top: 40px; padding-bottom: 72px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+    <div style="flex: 1 1 480px; min-width: 0">
+      <span class="kicker">Milliy sertifikat · fizika</span>
+      <h1 style="margin: 12px 0 0; font-weight: 800; font-size: clamp(36px, 5vw, 58px); line-height: 1.08; letter-spacing: -0.03em">Fizikadan milliy sertifikatga o'zbek tilida tayyorlaning</h1>
+      <p style="margin: 18px 0 0; font-size: 19px; line-height: 1.6; color: #4A5360; max-width: 540px">Rasmiy 5 bo'lim bo'yicha mashqlar, har bir yechim animatsiya bilan tushuntiriladi va kompyuterdagi imtihon formatida mock testlar bor. Kuniga 10 daqiqa, Telegram ichida.</p>
+      <div style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px">
+        <a class="btn" href="#">Bepul boshlash</a>
+        <a class="btn2" href="#bolimlar">Bo'limlarni ko'rish</a>
+      </div>
+      <ul style="margin: 30px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 15px; font-weight: 500; color: #3A4552">
+        <li style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 22px; border-radius: 11px; background: #D7EEDC; display: inline-flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.5 2.5L10 3" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Rasmiy 5 bo'lim</li>
+        <li style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 22px; border-radius: 11px; background: #D7EEDC; display: inline-flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.5 2.5L10 3" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>45 savollik mock test</li>
+        <li style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 22px; border-radius: 11px; background: #D7EEDC; display: inline-flex; align-items: center; justify-content: center"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.5 2.5L10 3" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>Bepul, o'zbek tilida</li>
+      </ul>
+    </div>
+
+    <figure style="flex: 1 1 440px; min-width: 0; margin: 0">
+      <svg viewBox="0 0 480 420" width="100%" role="img" aria-label="Fizika rasmlari: mayatnik, qiya tekislik, atom va formulalar" style="display: block">
+        <circle cx="250" cy="215" r="190" fill="#FBE3D2"></circle>
+        <circle cx="390" cy="92" r="46" fill="#DCE6FB"></circle>
+        <circle cx="92" cy="330" r="38" fill="#D7EEDC"></circle>
+
+        <g transform="translate(0 0)">
+          <rect x="186" y="58" width="144" height="12" rx="6" fill="#1B2430"></rect>
+          <rect x="198" y="70" width="10" height="250" rx="5" fill="#1B2430"></rect>
+          <rect x="160" y="316" width="76" height="14" rx="7" fill="#1B2430"></rect>
+          <g class="swing">
+            <line x1="258" y1="70" x2="258" y2="214" stroke="#1B2430" stroke-width="3" stroke-linecap="round"></line>
+            <circle cx="258" cy="230" r="22" fill="#C2410C"></circle>
+            <circle cx="251" cy="223" r="6" fill="#F4A07A"></circle>
+          </g>
+          <circle cx="258" cy="70" r="7" fill="#F6F1E7" stroke="#1B2430" stroke-width="3"></circle>
+        </g>
+
+        <g transform="translate(232 278)">
+          <path d="M0 96 L196 96 L196 8 Z" fill="#FFFFFF" stroke="#1B2430" stroke-width="3" stroke-linejoin="round"></path>
+          <g transform="translate(118 46) rotate(-24.2)">
+            <rect x="-24" y="-34" width="48" height="34" rx="6" fill="#1D4ED8"></rect>
+          </g>
+          <path d="M40 96 A40 40 0 0 0 36.5 79.6" fill="none" stroke="#1B2430" stroke-width="2"></path>
+        </g>
+
+        <g transform="translate(14 60)">
+          <circle cx="96" cy="96" r="58" fill="#FFFFFF" stroke="#EAE3D5" stroke-width="2"></circle>
+          <g class="orbit">
+            <ellipse cx="96" cy="96" rx="52" ry="20" fill="none" stroke="#1B2430" stroke-width="2.5"></ellipse>
+            <ellipse cx="96" cy="96" rx="52" ry="20" fill="none" stroke="#1B2430" stroke-width="2.5" transform="rotate(60 96 96)"></ellipse>
+            <ellipse cx="96" cy="96" rx="52" ry="20" fill="none" stroke="#1B2430" stroke-width="2.5" transform="rotate(120 96 96)"></ellipse>
+            <circle cx="148" cy="96" r="6" fill="#C2410C"></circle>
+          </g>
+          <circle cx="96" cy="96" r="10" fill="#15803D"></circle>
+        </g>
+
+        <g>
+          <rect x="330" y="176" width="118" height="44" rx="12" fill="#FFFFFF" stroke="#EAE3D5" stroke-width="2"></rect>
+          <text x="389" y="205" text-anchor="middle" font-family="STIX Two Text, serif" font-style="italic" font-size="21" fill="#1B2430">F = ma</text>
+          <rect x="40" y="240" width="128" height="44" rx="12" fill="#1B2430"></rect>
+          <text x="104" y="269" text-anchor="middle" font-family="STIX Two Text, serif" font-style="italic" font-size="21" fill="#F6F1E7">E = mc²</text>
+        </g>
+      </svg>
+    </figure>
+  </section>
+
+  <section id="sertifikat" style="background: #FFFFFF; border-top: 1px solid #EAE3D5; border-bottom: 1px solid #EAE3D5">
+    <div class="wrap" style="padding-top: 72px; padding-bottom: 72px">
+      <span class="kicker">Imtihon formati</span>
+      <h2 class="h2" style="margin-top: 8px">Milliy sertifikat imtihoni kabi mashq qiling</h2>
+      <p class="lead">Fizika imtihoni endi kompyuterda topshiriladi. Fizzo'dagi mock test rasmiy test varianti tuzilmasini takrorlaydi — imtihon kuni hech narsa yangilik bo'lmaydi.</p>
+
+      <div style="margin-top: 36px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+        <div class="card" style="padding: 22px; background: #FBF8F2"><div style="font-size: 36px; font-weight: 800">32</div><div style="margin-top: 6px; font-weight: 700">Yopiq savol (Y-1)</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.5; color: #5B6470">To'rtta variantdan bitta to'g'ri javob.</div></div>
+        <div class="card" style="padding: 22px; background: #FBF8F2"><div style="font-size: 36px; font-weight: 800">3</div><div style="margin-top: 6px; font-weight: 700">Moslashtirish (Y-2)</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.5; color: #5B6470">Ikki ustundagi tushunchalarni juftlash.</div></div>
+        <div class="card" style="padding: 22px; background: #FBF8F2"><div style="font-size: 36px; font-weight: 800">10</div><div style="margin-top: 6px; font-weight: 700">Ochiq savol (O)</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.5; color: #5B6470">Javobni o'zingiz yozasiz, a va b bandlari bilan.</div></div>
+        <div class="card" style="padding: 22px; background: #1B2430; border-color: #1B2430; color: #F6F1E7"><div style="font-size: 36px; font-weight: 800">150</div><div style="margin-top: 6px; font-weight: 700">daqiqa</div><div style="margin-top: 6px; font-size: 14px; line-height: 1.5; color: #C9CFD8">Mock testda ham taymer xuddi shunday.</div></div>
+      </div>
+
+      <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 16px">
+        <div class="card" style="flex: 1 1 320px; padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #DCE6FB; display: inline-flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="#1D4ED8" stroke-width="2"></rect><path d="M8 20h8M12 16v4" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round"></path></svg></span>
+          <div><div style="font-weight: 700">Kompyuterda topshiriladi</div><div style="margin-top: 4px; font-size: 15px; line-height: 1.55; color: #5B6470">Bilim va malakalarni baholash agentligi fizika imtihonini elektron shaklda o'tkazmoqda. Mock test ekrani shunga moslangan.</div></div>
+        </div>
+        <div class="card" style="flex: 1 1 320px; padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #FBE3D2; display: inline-flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="#C2410C" stroke-width="2"></rect><path d="M3 10h18M8 3v4M16 3v4" stroke="#C2410C" stroke-width="2" stroke-linecap="round"></path></svg></span>
+          <div><div style="font-weight: 700">Yiliga ikki marta</div><div style="margin-top: 4px; font-size: 15px; line-height: 1.55; color: #5B6470">Fizikadan sertifikat imtihoni yil davomida ikki marta o'tkaziladi. Aniq sanalarni uzbmb.uz saytida tekshiring.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bolimlar" class="wrap" style="padding-top: 72px; padding-bottom: 72px">
+    <span class="kicker">Dastur</span>
+    <h2 class="h2" style="margin-top: 8px">Rasmiy spetsifikatsiyadagi 5 bo'lim</h2>
+    <p class="lead">Mavzular va savollar soni rasmiy test varianti tafsilotiga mos keladi.</p>
+    <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
+      
+        <div class="card" style="padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #FBE3D2; color: #C2410C; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">1</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline"><span style="font-size: 18px; font-weight: 700">Mexanika</span><span style="flex: none; font-size: 13px; font-weight: 600; color: #5B6470">13 savol</span></div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.55; color: #5B6470">Kinematika, dinamika, statika, suyuqlik va gazlar mexanikasi, saqlanish qonunlari, tebranishlar va to‘lqinlar</div>
+            <div style="margin-top: 12px; display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #D7EEDC; color: #15803D">Hozir ochiq</div>
+          </div>
+        </div>
+      
+        <div class="card" style="padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #DCE6FB; color: #1D4ED8; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">2</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline"><span style="font-size: 18px; font-weight: 700">Elektr va magnitizm</span><span style="flex: none; font-size: 13px; font-weight: 600; color: #5B6470">12 savol</span></div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.55; color: #5B6470">Elektrostatika, o‘zgarmas tok, turli muhitlarda tok, magnitizm, elektromagnit tebranishlar</div>
+            <div style="margin-top: 12px; display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #F1ECE2; color: #5B6470">Tez orada</div>
+          </div>
+        </div>
+      
+        <div class="card" style="padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #D7EEDC; color: #15803D; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">3</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline"><span style="font-size: 18px; font-weight: 700">Molekulyar fizika va termodinamika</span><span style="flex: none; font-size: 13px; font-weight: 600; color: #5B6470">7 savol</span></div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.55; color: #5B6470">Molekulyar-kinetik nazariya, gaz qonunlari, termodinamika qonunlari, suyuqlik va qattiq jismlar</div>
+            <div style="margin-top: 12px; display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #F1ECE2; color: #5B6470">Tez orada</div>
+          </div>
+        </div>
+      
+        <div class="card" style="padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #F3E8C9; color: #8A5A00; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">4</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline"><span style="font-size: 18px; font-weight: 700">Optika va nisbiylik nazariyasi</span><span style="flex: none; font-size: 13px; font-weight: 600; color: #5B6470">5 savol</span></div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.55; color: #5B6470">Geometrik optika, linzalar, to‘lqin optikasi, maxsus nisbiylik nazariyasi asoslari</div>
+            <div style="margin-top: 12px; display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #F1ECE2; color: #5B6470">Tez orada</div>
+          </div>
+        </div>
+      
+        <div class="card" style="padding: 22px; display: flex; gap: 16px; align-items: flex-start">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #E9E3F5; color: #5B3FA8; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px">5</span>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline"><span style="font-size: 18px; font-weight: 700">Kvant, atom va yadro fizikasi</span><span style="flex: none; font-size: 13px; font-weight: 600; color: #5B6470">4 savol</span></div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.55; color: #5B6470">Fotoeffekt, fotonlar, Bor modeli, radioaktiv yemirilish, yadro reaksiyalari</div>
+            <div style="margin-top: 12px; display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #F1ECE2; color: #5B6470">Tez orada</div>
+          </div>
+        </div>
+      
+    </div>
+  </section>
+
+  <section id="imkoniyatlar" style="background: #FFFFFF; border-top: 1px solid #EAE3D5; border-bottom: 1px solid #EAE3D5">
+    <div class="wrap" style="padding-top: 72px; padding-bottom: 72px">
+      <span class="kicker">Imkoniyatlar</span>
+      <h2 class="h2" style="margin-top: 8px">Nega Fizzo bilan tayyorlanish kerak?</h2>
+      <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px">
+        
+          <div class="card" style="padding: 24px; background: #FBF8F2">
+            <span style="width: 48px; height: 48px; border-radius: 14px; background: #FBE3D2; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l13 8-13 8z" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <div style="margin-top: 16px; font-size: 18px; font-weight: 700">Animatsiyali yechimlar</div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #5B6470">Kuchlar, harakat va grafiklar bosqichma-bosqich ko‘rsatiladi. Formulani yodlash emas — ko‘rib tushunish.</div>
+          </div>
+        
+          <div class="card" style="padding: 24px; background: #FBF8F2">
+            <span style="width: 48px; height: 48px; border-radius: 14px; background: #DCE6FB; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1.3 1.8 1.4 2.5h5.2c.1-.7.6-1.7 1.4-2.5A6 6 0 0 0 12 3z" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <div style="margin-top: 16px; font-size: 18px; font-weight: 700">Xatoingiz tushuntiriladi</div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #5B6470">Noto‘g‘ri javob tanlasangiz, aynan qaysi xatoni qilganingizni aytamiz: sin o‘rniga cos, unutilgan ishqalanish va hokazo.</div>
+          </div>
+        
+          <div class="card" style="padding: 24px; background: #FBF8F2">
+            <span style="width: 48px; height: 48px; border-radius: 14px; background: #FBE3D2; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3 4 5 4 9a4 4 0 0 1-8 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 0-8z" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <div style="margin-top: 16px; font-size: 18px; font-weight: 700">Kunlik streak</div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #5B6470">Har kuni 10 ta savol. Seriyani uzmang — muntazamlik tayyorgarlikning kaliti.</div>
+          </div>
+        
+          <div class="card" style="padding: 24px; background: #FBF8F2">
+            <span style="width: 48px; height: 48px; border-radius: 14px; background: #D7EEDC; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM12 9v4l3 2M9 2h6" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <div style="margin-top: 16px; font-size: 18px; font-weight: 700">Haqiqiy formatdagi mock test</div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #5B6470">45 savol, 150 daqiqa, savollar navigatori va belgilab qo‘yish — kompyuterdagi imtihon kabi.</div>
+          </div>
+        
+          <div class="card" style="padding: 24px; background: #FBF8F2">
+            <span style="width: 48px; height: 48px; border-radius: 14px; background: #F3E8C9; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <div style="margin-top: 16px; font-size: 18px; font-weight: 700">Zaif mavzular tahlili</div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #5B6470">Qaysi bo‘limda kuchli, qayerda zaif ekaningizni statistika aniq ko‘rsatadi.</div>
+          </div>
+        
+          <div class="card" style="padding: 24px; background: #FBF8F2">
+            <span style="width: 48px; height: 48px; border-radius: 14px; background: #DCE6FB; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM11 18h2" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+            <div style="margin-top: 16px; font-size: 18px; font-weight: 700">Telegram ichida</div>
+            <div style="margin-top: 6px; font-size: 15px; line-height: 1.6; color: #5B6470">Ilova yuklab olish shart emas. Telefonda ham, kompyuterda ham ishlaydi, sekin internetda ham ochiladi.</div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top: 72px; padding-bottom: 72px">
+    <span class="kicker">Qanday ishlaydi</span>
+    <h2 class="h2" style="margin-top: 8px">Uch qadam, har kuni</h2>
+    <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+      <div class="card" style="padding: 24px">
+        <svg width="100%" height="120" viewBox="0 0 260 120" aria-hidden="true"><rect x="0" y="0" width="260" height="120" rx="14" fill="#FBE3D2"></rect><rect x="70" y="22" width="120" height="78" rx="8" fill="#FFFFFF" stroke="#1B2430" stroke-width="2.5"></rect><path d="M130 22v78" stroke="#1B2430" stroke-width="2.5"></path><path d="M84 42h32M84 56h28M84 70h32M144 42h32M144 56h24" stroke="#C2410C" stroke-width="3" stroke-linecap="round"></path></svg>
+        <div style="margin-top: 18px; display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 14px; background: #1B2430; color: #F6F1E7; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center">1</span><span style="font-size: 18px; font-weight: 700">Mavzuni o'qing</span></div>
+        <p style="margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: #5B6470">Qisqa nazariya, asosiy formulalar va yechilgan misollar. Bir mavzu — besh daqiqa.</p>
+      </div>
+      <div class="card" style="padding: 24px">
+        <svg width="100%" height="120" viewBox="0 0 260 120" aria-hidden="true"><rect x="0" y="0" width="260" height="120" rx="14" fill="#DCE6FB"></rect><path d="M78 96 L190 96 L190 32 Z" fill="#FFFFFF" stroke="#1B2430" stroke-width="2.5" stroke-linejoin="round"></path><g transform="translate(140 61) rotate(-29.7)"><rect x="-16" y="-24" width="32" height="24" rx="4" fill="#1D4ED8"></rect><path d="M20 -12 H44" stroke="#C2410C" stroke-width="3" stroke-linecap="round"></path><path d="M38 -17 L45 -12 L38 -7" fill="none" stroke="#C2410C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
+        <div style="margin-top: 18px; display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 14px; background: #1B2430; color: #F6F1E7; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center">2</span><span style="font-size: 18px; font-weight: 700">Mashq qiling</span></div>
+        <p style="margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: #5B6470">Kuniga 10 ta savol. Xato qilsangiz — qayerda adashganingizni aytamiz va yechimni animatsiyada ko'rsatamiz.</p>
+      </div>
+      <div class="card" style="padding: 24px">
+        <svg width="100%" height="120" viewBox="0 0 260 120" aria-hidden="true"><rect x="0" y="0" width="260" height="120" rx="14" fill="#D7EEDC"></rect><circle cx="130" cy="66" r="38" fill="#FFFFFF" stroke="#1B2430" stroke-width="2.5"></circle><rect x="122" y="16" width="16" height="10" rx="3" fill="#1B2430"></rect><path d="M130 66 L130 42" stroke="#1B2430" stroke-width="3" stroke-linecap="round"></path><path d="M130 66 L148 76" stroke="#C2410C" stroke-width="3" stroke-linecap="round"></path><circle cx="130" cy="66" r="4" fill="#1B2430"></circle></svg>
+        <div style="margin-top: 18px; display: flex; align-items: center; gap: 10px"><span style="width: 28px; height: 28px; border-radius: 14px; background: #1B2430; color: #F6F1E7; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center">3</span><span style="font-size: 18px; font-weight: 700">Mock test topshiring</span></div>
+        <p style="margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: #5B6470">45 savol, 150 daqiqa. Natijada bo'limlar kesimi va qaysi mavzularni takrorlash kerakligi chiqadi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="savollar" style="background: #FFFFFF; border-top: 1px solid #EAE3D5">
+    <div class="wrap" style="padding-top: 72px; padding-bottom: 72px; display: flex; flex-wrap: wrap; gap: 32px 56px">
+      <div style="flex: 1 1 300px; min-width: 0">
+        <span class="kicker">Savol-javob</span>
+        <h2 class="h2" style="margin-top: 8px">Ko'p so'raladigan savollar</h2>
+        <p class="lead" style="font-size: 16px">Javob topa olmadingizmi? Telegram botimizga yozing — [@BOT_USERNAME].</p>
+      </div>
+      <div style="flex: 2 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        
+          <details class="card" style="padding: 0 22px; background: #FBF8F2">
+            <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 62px; font-size: 17px; font-weight: 600">Milliy sertifikat nima?<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round"></path></svg></summary>
+            <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #4A5360">Bilim va malakalarni baholash agentligi o‘tkazadigan davlat imtihoni. Yetarli daraja olsangiz, oliy ta‘limga qabulda shu fan bo‘yicha imtiyozga ega bo‘lasiz. Aniq qoidalarni uzbmb.uz saytida tekshiring.</p>
+          </details>
+        
+          <details class="card" style="padding: 0 22px; background: #FBF8F2">
+            <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 62px; font-size: 17px; font-weight: 600">Fizika imtihoni qanday tuzilgan?<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round"></path></svg></summary>
+            <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #4A5360">45 topshiriq: 32 ta bitta javobli, 3 ta moslashtirish va 10 ta ochiq (a va b bandli) savol. Umumiy vaqt — 150 daqiqa. Natija Rasch modeli asosida hisoblanadi.</p>
+          </details>
+        
+          <details class="card" style="padding: 0 22px; background: #FBF8F2">
+            <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 62px; font-size: 17px; font-weight: 600">Fizzo bepulmi?<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round"></path></svg></summary>
+            <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #4A5360">Ha, kunlik mashqlar va animatsiyali yechimlar bepul. [Premium imkoniyatlari keyinroq e‘lon qilinadi.]</p>
+          </details>
+        
+          <details class="card" style="padding: 0 22px; background: #FBF8F2">
+            <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 62px; font-size: 17px; font-weight: 600">Qaysi bo‘limlar hozir ochiq?<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round"></path></svg></summary>
+            <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #4A5360">Hozir mexanika ochiq. Qolgan bo‘limlar bosqichma-bosqich qo‘shiladi.</p>
+          </details>
+        
+          <details class="card" style="padding: 0 22px; background: #FBF8F2">
+            <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 62px; font-size: 17px; font-weight: 600">Savollar to‘g‘riligiga ishonsa bo‘ladimi?<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round"></path></svg></summary>
+            <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #4A5360">Har bir savol chiqarilishdan oldin qayta yechib tekshiriladi. Xato topsangiz, savol ostidagi “Xabar bering” tugmasini bosing.</p>
+          </details>
+        
+          <details class="card" style="padding: 0 22px; background: #FBF8F2">
+            <summary style="display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 62px; font-size: 17px; font-weight: 600">Ilova yuklab olish kerakmi?<svg class="plus" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12" stroke="#C2410C" stroke-width="2.2" stroke-linecap="round"></path></svg></summary>
+            <p style="margin: 0 0 20px; font-size: 16px; line-height: 1.6; color: #4A5360">Yo‘q. Fizzo Telegram ichida ochiladi, kompyuterda esa brauzerda ishlaydi. Telegram orqali kirasiz — parol kerak emas.</p>
+          </details>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-top: 24px; padding-bottom: 72px">
+    <div style="border-radius: 28px; background: #1B2430; color: #F6F1E7; padding: 48px 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 28px 40px; overflow: hidden; position: relative">
+      <div style="flex: 1 1 420px; min-width: 0; position: relative">
+        <h2 class="h2" style="color: #FFFFFF">Sertifikatga bugundan tayyorlaning</h2>
+        <p style="margin: 12px 0 0; font-size: 17px; line-height: 1.6; color: #C9CFD8; max-width: 520px">Telegram orqali 30 soniyada kirasiz. Birinchi 10 ta savolni bugun yeching.</p>
+      </div>
+      <a class="btn" href="#" style="position: relative">Bepul boshlash</a>
+    </div>
+  </section>
+
+  <footer style="border-top: 1px solid #EAE3D5">
+    <div class="wrap" style="padding-top: 28px; padding-bottom: 36px; display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; font-size: 14px; color: #5B6470">
+      <span style="font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 18px; color: #1B2430">fizzo<span style="color: #C2410C">.</span></span>
+      <span>Fizikadan milliy sertifikatga bepul onlayn tayyorgarlik</span>
+      <span style="margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px 22px"><a href="#" style="color: #5B6470">Maxfiylik siyosati</a><a href="#" style="color: #5B6470">Foydalanish shartlari</a><span>© 2026 Fizzo</span></span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

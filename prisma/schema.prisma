@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String        @id @default(cuid())
+  telegramId    BigInt        @unique
+  firstName     String
+  lastName      String?
+  username      String?
+  photoUrl      String?
+  streak        Int           @default(0)
+  bestStreak    Int           @default(0)
+  lastActiveOn  DateTime?     @db.Date
+  shareActivity Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  attempts      Attempt[]
+  mockSessions  MockSession[]
+  reviews       Review[]
+}
+
+model Section {
+  id     String  @id @default(cuid())
+  code   String  @unique
+  name   String
+  order  Int
+  isOpen Boolean @default(false)
+  topics Topic[]
+}
+
+model Topic {
+  id        String     @id @default(cuid())
+  code      String     @unique
+  name      String
+  summary   String?
+  order     Int
+  sectionId String
+  section   Section    @relation(fields: [sectionId], references: [id])
+  questions Question[]
+
+  @@index([sectionId])
+}
+
+enum QuestionType {
+  Y1
+  Y2
+  O
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model Question {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  topicId     String
+  topic       Topic        @relation(fields: [topicId], references: [id])
+  type        QuestionType @default(Y1)
+  difficulty  Difficulty   @default(MEDIUM)
+  text        String
+  options     Json?
+  answer      Json
+  solution    Json
+  mistakes    Json?
+  figure      Json?
+  isPublished Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  attempts    Attempt[]
+
+  @@index([topicId, isPublished])
+}
+
+model Attempt {
+  id            String       @id @default(cuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionId    String
+  question      Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  mockSessionId String?
+  mockSession   MockSession? @relation(fields: [mockSessionId], references: [id], onDelete: Cascade)
+  response      Json
+  isCorrect     Boolean
+  timeMs        Int?
+  createdAt     DateTime     @default(now())
+
+  @@index([userId, createdAt])
+  @@index([questionId])
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Review {
+  id         String       @id @default(cuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text       String
+  status     ReviewStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  decidedAt  DateTime?
+
+  @@index([status])
+}
+
+model MockSession {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questionIds String[]
+  answers     Json      @default("{}")
+  flagged     String[]  @default([])
+  startedAt   DateTime  @default(now())
+  endsAt      DateTime
+  finishedAt  DateTime?
+  attempts    Attempt[]
+
+  @@index([userId, startedAt])
+}
