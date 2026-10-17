@@ -4,22 +4,24 @@ import { buildGoogleAuthUrl } from "@/lib/google-auth";
 import { env } from "@/lib/env";
 import { sanitizeInternalPath } from "@/lib/safe-path";
 import { rateLimit } from "@/lib/rate-limit";
+import { publicOrigin } from "@/lib/request-origin";
 import { GOOGLE_OAUTH_COOKIE_NAME, GOOGLE_OAUTH_MAX_AGE_SECONDS } from "@/lib/constants";
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") ?? "unknown";
   const keyin = sanitizeInternalPath(request.nextUrl.searchParams.get("keyin"));
+  const origin = publicOrigin(request);
 
   if (!rateLimit(`auth-google:${ip}`, { capacity: 10, refillPerSecond: 10 / 60 })) {
-    return NextResponse.redirect(new URL("/kirish?xato=tezkor", request.url));
+    return NextResponse.redirect(new URL("/kirish?xato=tezkor", origin));
   }
 
   if (!env.googleClientId) {
-    return NextResponse.redirect(new URL("/kirish?xato=1", request.url));
+    return NextResponse.redirect(new URL("/kirish?xato=1", origin));
   }
 
   const state = randomUUID();
-  const redirectUri = new URL("/api/auth/google/callback", request.url).toString();
+  const redirectUri = new URL("/api/auth/google/callback", origin).toString();
   const authUrl = buildGoogleAuthUrl({ clientId: env.googleClientId, redirectUri, state });
 
   const response = NextResponse.redirect(authUrl);

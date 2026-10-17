@@ -6,6 +6,7 @@ import { SESSION_COOKIE_NAME } from "@/lib/constants";
 import { env } from "@/lib/env";
 import { sanitizeInternalPath } from "@/lib/safe-path";
 import { rateLimit } from "@/lib/rate-limit";
+import { publicOrigin } from "@/lib/request-origin";
 
 const WIDGET_FIELDS = [
   "id",
@@ -29,21 +30,22 @@ function pickWidgetFields(params: URLSearchParams): Record<string, string> {
 export async function GET(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") ?? "unknown";
   const keyin = sanitizeInternalPath(request.nextUrl.searchParams.get("keyin"));
+  const origin = publicOrigin(request);
 
   if (!rateLimit(`auth-widget:${ip}`, { capacity: 10, refillPerSecond: 10 / 60 })) {
-    return NextResponse.redirect(new URL("/kirish?xato=tezkor", request.url));
+    return NextResponse.redirect(new URL("/kirish?xato=tezkor", origin));
   }
 
   const fields = pickWidgetFields(request.nextUrl.searchParams);
   const authUser = verifyLoginWidget(fields, env.telegramBotToken);
   if (!authUser) {
-    return NextResponse.redirect(new URL("/kirish?xato=1", request.url));
+    return NextResponse.redirect(new URL("/kirish?xato=1", origin));
   }
 
   const user = await upsertTelegramUser(authUser);
   const token = await createSessionToken({ userId: user.id });
 
-  const response = NextResponse.redirect(new URL(keyin, request.url));
+  const response = NextResponse.redirect(new URL(keyin, origin));
   response.cookies.set(SESSION_COOKIE_NAME, token, sessionCookieOptions());
   return response;
 }

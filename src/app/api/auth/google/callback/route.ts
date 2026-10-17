@@ -6,6 +6,7 @@ import { SESSION_COOKIE_NAME, GOOGLE_OAUTH_COOKIE_NAME } from "@/lib/constants";
 import { env } from "@/lib/env";
 import { sanitizeInternalPath } from "@/lib/safe-path";
 import { rateLimit } from "@/lib/rate-limit";
+import { publicOrigin } from "@/lib/request-origin";
 
 interface OAuthCookieState {
   state: string;
@@ -25,15 +26,16 @@ function readOAuthCookie(raw: string | undefined): OAuthCookieState | null {
 
 export async function GET(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") ?? "unknown";
+  const origin = publicOrigin(request);
 
   const failureRedirect = () => {
-    const response = NextResponse.redirect(new URL("/kirish?xato=1", request.url));
+    const response = NextResponse.redirect(new URL("/kirish?xato=1", origin));
     response.cookies.delete(GOOGLE_OAUTH_COOKIE_NAME);
     return response;
   };
 
   if (!rateLimit(`auth-google:${ip}`, { capacity: 10, refillPerSecond: 10 / 60 })) {
-    return NextResponse.redirect(new URL("/kirish?xato=tezkor", request.url));
+    return NextResponse.redirect(new URL("/kirish?xato=tezkor", origin));
   }
 
   if (!env.googleClientId || !env.googleClientSecret) {
@@ -48,7 +50,7 @@ export async function GET(request: NextRequest) {
     return failureRedirect();
   }
 
-  const redirectUri = new URL("/api/auth/google/callback", request.url).toString();
+  const redirectUri = new URL("/api/auth/google/callback", origin).toString();
   const idToken = await exchangeGoogleCode({
     code,
     redirectUri,
@@ -64,7 +66,7 @@ export async function GET(request: NextRequest) {
   const token = await createSessionToken({ userId: user.id });
 
   const keyin = sanitizeInternalPath(oauthState.keyin);
-  const response = NextResponse.redirect(new URL(keyin, request.url));
+  const response = NextResponse.redirect(new URL(keyin, origin));
   response.cookies.set(SESSION_COOKIE_NAME, token, sessionCookieOptions());
   response.cookies.delete(GOOGLE_OAUTH_COOKIE_NAME);
   return response;
