@@ -8,9 +8,9 @@ export function proxy(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
   const isRoot = request.nextUrl.pathname === "/";
 
-  // head.fizzo.app serves the same app, but should land straight on the admin dashboard.
+  // head.fizzo.app serves the same app, but should land straight on the password-gated panel.
   if (isRoot && host.startsWith("head.")) {
-    return NextResponse.rewrite(new URL("/admin", request.url));
+    return NextResponse.rewrite(new URL("/panel", request.url));
   }
 
   if (isRoot) {
@@ -31,6 +31,8 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|kirish|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp|webmanifest)$).*)",
+    // "panel" is excluded because it has its own username+password gate
+    // (src/lib/dashboard-auth.ts), independent of the Telegram/Google session.
+    "/((?!api|_next/static|_next/image|kirish|panel|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp|webmanifest)$).*)",
   ],
 };

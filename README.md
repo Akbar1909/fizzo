@@ -89,12 +89,17 @@ cp .env.example .env
 #   TELEGRAM_BOT_TOKEN, NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
 #   SESSION_SECRET — kamida 32 ta tasodifiy belgi: openssl rand -base64 48
 #   ADMIN_TELEGRAM_IDS — vergul bilan ajratilgan Telegram ID'lar
+#   ADMIN_DASHBOARD_USERNAME / ADMIN_DASHBOARD_PASSWORD — /panel (head.fizzo.app) uchun
 #   DEV_LOGIN="false"
 #   GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET — ixtiyoriy, 4-bo'limga qarang
 #   NEXT_PUBLIC_GA_MEASUREMENT_ID — ixtiyoriy, 5-bo'limga qarang
 ```
 
-`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (5-bo'limdagi eslatmaga qarang) — `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` `NEXT_PUBLIC_` prefiksiga ega emas, shuning uchun build-arg sifatida kerak emas.
+`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`, `ADMIN_DASHBOARD_USERNAME`, `ADMIN_DASHBOARD_PASSWORD`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (5-bo'limdagi eslatmaga qarang) — `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` `NEXT_PUBLIC_` prefiksiga ega emas, shuning uchun build-arg sifatida kerak emas.
+
+### 6.2.1. Statistika paneli (`/panel`, `head.fizzo.app`)
+
+`/panel` — Telegram/Google sessiyasidan mustaqil, alohida login+parol bilan himoyalangan statistika sahifasi (`ADMIN_DASHBOARD_USERNAME`/`ADMIN_DASHBOARD_PASSWORD`). `head.fizzo.app` subdomeni (`proxy.ts`) so'rovlarni avtomatik `/panel`ga yo'naltiradi — Caddy/Nginx konfiguratsiyasida bu subdomen uchun ham `fizzo.app` bilan bir xil portga reverse proxy qo'shilishi kerak.
 
 ### 6.2. Build va ishga tushirish
 
@@ -190,6 +195,7 @@ gunzip -c /var/backups/fizzo/fizzo-2026-03-05.sql.gz | docker compose exec -T db
 
 - `src/app/(app)/` — autentifikatsiya talab qiladigan sahifalar (Bugun, Mavzular, Mashq, Mock test, Natijalar).
 - `src/app/admin/` — kontent boshqaruv paneli (`ADMIN_TELEGRAM_IDS` talab qiladi).
+- `src/app/panel/` — statistika sahifasi, login+parol bilan (`ADMIN_DASHBOARD_USERNAME`/`ADMIN_DASHBOARD_PASSWORD`), `head.fizzo.app`ga mo'ljallangan.
 - `src/app/kirish/` — Telegram orqali kirish sahifasi.
 - `src/components/animations/` — parametrik SVG animatsiya shablonlari (`incline`, `atwood`, `table-pulley`) va ularning umumiy pleyeri.
 - `src/lib/` — autentifikatsiya, javob tekshirish, seriya (streak), mashq tanlash va mock test mantiqi.

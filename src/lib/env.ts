@@ -42,4 +42,10 @@ export const env = {
   get googleClientSecret(): string | null {
     return process.env.GOOGLE_CLIENT_SECRET || null;
   },
+  get dashboardUsername(): string {
+    return required("ADMIN_DASHBOARD_USERNAME");
+  },
+  get dashboardPassword(): string {
+    return required("ADMIN_DASHBOARD_PASSWORD");
+  },
 };

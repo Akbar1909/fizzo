@@ -3,3 +3,6 @@ export const SESSION_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 
 export const GOOGLE_OAUTH_COOKIE_NAME = "fizzo_google_oauth";
 export const GOOGLE_OAUTH_MAX_AGE_SECONDS = 10 * 60;
+
+export const DASHBOARD_COOKIE_NAME = "fizzo_dashboard_session";
+export const DASHBOARD_SESSION_MAX_AGE_SECONDS = 12 * 60 * 60;
