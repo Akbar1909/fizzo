@@ -1297,6 +1297,498 @@ const QUESTIONS: QuestionSeed[] = [
       { when: "B", text: "Harorat o'zgarishini hisobga olmadingiz." },
     ],
   },
+  {
+    slug: "mol-021",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Dezodorant balonchasi 20°C xonada saqlanganda ichidagi gaz bosimi 4 atm. Agar balonni issiq mashina salonida (70°C) qoldirsangiz, bosim qancha bo'ladi (hajm o'zgarmaydi)?",
+    options: [
+      { key: "A", text: "3,42 atm" },
+      { key: "B", text: "4 atm" },
+      { key: "C", text: "4,68 atm" },
+      { key: "D", text: "5 atm" },
+    ],
+    answer: "C",
+    solution: [
+      { text: "$P_1/T_1 = P_2/T_2$, $T_1=293$ K, $T_2=343$ K." },
+      {
+        text: "$P_2 = 4 \\cdot 343/293 \\approx 4{,}68$ atm.",
+        note: "Shuning uchun dezodorant va boshqa aerozol balonlarni issiq joyda yoki quyosh tagida qoldirish xavfli.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Harorat nisbati teskari olindi." },
+      { when: "B", text: "Yopiq balonda harorat ortsa, bosim ham ortadi." },
+    ],
+  },
+  {
+    slug: "mol-022",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Dam olish markazidagi shishiriladigan qayiqning hajmi 200 litr, bosimi 1,1 atm edi. Qayiqqa odamlar chiqib og'irlik tushishi bilan hajm 180 litrga qisqardi (harorat o'zgarmaydi). Yangi bosimni toping.",
+    options: [
+      { key: "A", text: "1,22 atm" },
+      { key: "B", text: "0,99 atm" },
+      { key: "C", text: "1,1 atm" },
+      { key: "D", text: "1,5 atm" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$P_2 = 1{,}1 \\cdot 200/180 \\approx 1{,}22$ atm.",
+        note: "Shuning uchun ko'p odam chiqqan shishiriladigan qayiq yoki matras 'qattiqlashganday' tuyuladi.",
+      },
+    ],
+    mistakes: [
+      { when: "B", text: "Hajmlar nisbati teskari olindi." },
+      { when: "C", text: "Hajm kamaysa, bosim ortadi — o'zgarmay qolmaydi." },
+    ],
+  },
+  {
+    slug: "mol-023",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Yerda berk yopilgan yupqa plastik suv shishasi ichida 500 ml havo 1 atm bosimda bor edi. Samolyot parvozida salon ichidagi bosim 0,8 atm ga tushganda, shisha devori yupqa va cho'ziluvchan bo'lgani uchun uning ichidagi havo hajmi qanday bo'ladi (harorat o'zgarmaydi)?",
+    options: [
+      { key: "A", text: "400 ml" },
+      { key: "B", text: "500 ml" },
+      { key: "C", text: "550 ml" },
+      { key: "D", text: "625 ml" },
+    ],
+    answer: "D",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$V_2 = P_1 V_1 / P_2 = 1 \\cdot 500/0{,}8 = 625$ ml.",
+        note: "Shuning uchun parvozdan keyin suv shishasi biroz 'shishgan' holda ko'rinadi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Bo'lish o'rniga ko'paytirdingiz." },
+      { when: "B", text: "Bosim pasaysa, hajm o'zgarmay qolmaydi — kengayadi." },
+    ],
+  },
+  {
+    slug: "mol-024",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "HARD",
+    text: "Konserva ishlab chiqarishda bankaga 0,7 atm bosimli havo bilan 300 ml hajmda yopiladi. Agar shu havo normal atmosfera bosimida (1 atm) bo'lganda qancha hajmni egallagan bo'lardi?",
+    options: [
+      { key: "A", text: "428,6 ml" },
+      { key: "B", text: "210 ml" },
+      { key: "C", text: "300 ml" },
+      { key: "D", text: "350 ml" },
+    ],
+    answer: "B",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$V_2 = P_1 V_1 / P_2 = 0{,}7 \\cdot 300/1 = 210$ ml.",
+        note: "Shuning uchun konserva bankasini ochganda xirillagan ovoz eshitiladi — bosim tenglashadi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Bo'lish yo'nalishi teskari olindi." },
+      { when: "C", text: "Bosim oshsa, hajm kamayishi kerak." },
+    ],
+  },
+  {
+    slug: "mol-025",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Yong'in o'chirgich balonidagi bosim 25°C da 12 atm. Agar balon yozda qizigan mashina bagajida 65°C gacha isib ketsa (hajm o'zgarmaydi), bosim qancha bo'ladi?",
+    options: [
+      { key: "A", text: "13,61 atm" },
+      { key: "B", text: "10,58 atm" },
+      { key: "C", text: "12 atm" },
+      { key: "D", text: "15 atm" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "$P_1/T_1 = P_2/T_2$, $T_1=298$ K, $T_2=338$ K." },
+      {
+        text: "$P_2 = 12 \\cdot 338/298 \\approx 13{,}61$ atm.",
+        note: "Shuning uchun yong'in o'chirgichni issiq mashina ichida yoki quyosh tagida qoldirish tavsiya etilmaydi.",
+      },
+    ],
+    mistakes: [
+      { when: "B", text: "Harorat nisbati teskari olindi." },
+      { when: "C", text: "Yopiq balonda harorat ortsa, bosim ham ortadi." },
+    ],
+  },
+  {
+    slug: "mol-026",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Dazmonning bug' kamerasidagi havo harorati 20°C dan 120°C ga ko'tarilganda (hajm o'zgarmaydi), bosim necha marta ortadi?",
+    options: [
+      { key: "A", text: "2 marta" },
+      { key: "B", text: "0,75 marta" },
+      { key: "C", text: "1,34 marta" },
+      { key: "D", text: "6 marta" },
+    ],
+    answer: "C",
+    solution: [
+      { text: "Gey-Lyussak qonuni: $P_2/P_1 = T_2/T_1$, $T_1=293$ K, $T_2=393$ K." },
+      {
+        text: "$P_2/P_1 = 393/293 \\approx 1{,}34$ marta.",
+        note: "Shuning uchun dazmon ishlayotganda bug' teshigidan bosim bilan bug' chiqadi.",
+      },
+    ],
+    mistakes: [
+      { when: "B", text: "Nisbat teskari olindi." },
+      { when: "D", text: "Selsiy darajalarini to'g'ridan-to'g'ri nisbatladingiz — Kelvin shkalasiga o'tish kerak." },
+    ],
+  },
+  {
+    slug: "mol-027",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "Konditsioner kompressorida 400 sm³ freon gazi 1,5 atm bosimda bor edi. Kompressor uni 100 sm³ gacha siqadi (harorat o'zgarmaydi deb hisoblang). Bosimni toping.",
+    options: [
+      { key: "A", text: "0,38 atm" },
+      { key: "B", text: "6 atm" },
+      { key: "C", text: "1,5 atm" },
+      { key: "D", text: "4 atm" },
+    ],
+    answer: "B",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$P_2 = 1{,}5 \\cdot 400/100 = 6$ atm.",
+        note: "Konditsionerlar aynan shu tamoyil — gazni siqib sovutish — asosida ishlaydi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Hajmlar nisbati teskari olindi." },
+      { when: "C", text: "Hajm kamaysa, bosim ortadi." },
+    ],
+  },
+  {
+    slug: "mol-028",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Iliq garajda (22°C) saqlangan mashina shinasidagi bosim 2,2 atm edi. Mashinani sovuq ko'chaga (−8°C) chiqarganda (hajm o'zgarmaydi), bosim qancha bo'ladi?",
+    options: [
+      { key: "A", text: "2,45 atm" },
+      { key: "B", text: "2,2 atm" },
+      { key: "C", text: "1,7 atm" },
+      { key: "D", text: "1,98 atm" },
+    ],
+    answer: "D",
+    solution: [
+      { text: "$P_1/T_1 = P_2/T_2$, $T_1=295$ K, $T_2=265$ K." },
+      {
+        text: "$P_2 = 2{,}2 \\cdot 265/295 \\approx 1{,}98$ atm.",
+        note: "Shuning uchun qishda sovuqqa chiqqan mashinada shina bosimi pasayib ketadi — tekshirib turing.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Harorat nisbati teskari olindi." },
+      { when: "B", text: "Harorat pasaysa, yopiq hajmda bosim ham pasayadi." },
+    ],
+  },
+  {
+    slug: "mol-029",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "HARD",
+    text: "Shifoxona kislorod ballonida harorat 15°C bo'lganda bosim 150 atm edi. Ballon issiqroq xonaga olib o'tilib, harorat 25°C ga ko'tarilganda (hajm o'zgarmaydi), bosim qancha bo'ladi?",
+    options: [
+      { key: "A", text: "145 atm" },
+      { key: "B", text: "150 atm" },
+      { key: "C", text: "155,2 atm" },
+      { key: "D", text: "160 atm" },
+    ],
+    answer: "C",
+    solution: [
+      { text: "$P_1/T_1 = P_2/T_2$, $T_1=288$ K, $T_2=298$ K." },
+      {
+        text: "$P_2 = 150 \\cdot 298/288 \\approx 155{,}2$ atm.",
+        note: "Shifoxona kislorod ballonlari doimiy harorat nazoratida saqlanadi — bosim o'zgarishi xavfli bo'lishi mumkin.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Harorat nisbati teskari olindi." },
+      { when: "B", text: "Harorat ortsa, yopiq ballonda bosim ham ortadi." },
+    ],
+  },
+  {
+    slug: "mol-030",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Yangi yil bayrami uchun geliy bilan to'ldirilgan sharning yer sathidagi hajmi 2 litr, bosimi 1 atm. Shar yuqoriga ko'tarilib, tashqi bosim 0,6 atm bo'lgan balandlikka yetganda, shar hajmi qancha bo'ladi (harorat o'zgarmaydi deb hisoblang)?",
+    options: [
+      { key: "A", text: "3,33 litr" },
+      { key: "B", text: "0,3 litr" },
+      { key: "C", text: "2 litr" },
+      { key: "D", text: "2,6 litr" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$V_2 = P_1 V_1 / P_2 = 1 \\cdot 2/0{,}6 \\approx 3{,}33$ litr.",
+        note: "Shuning uchun baland ko'tarilgan sharlar ba'zan portlab ketadi — tashqi bosim pasayishi bilan.",
+      },
+    ],
+    mistakes: [
+      { when: "B", text: "Bo'lish yo'nalishi teskari olindi." },
+      { when: "C", text: "Tashqi bosim kamaysa, shar hajmi kengayishi kerak." },
+    ],
+  },
+  {
+    slug: "mol-031",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Avtomobil xavfsizlik yostig'ida hodisa paytida hosil bo'lgan gaz dastlab 0,5 litr hajmda 10 atm bosimda bo'ladi. Yostiq to'liq ochilib hajmi 50 litrga yetganda, bosim qancha bo'ladi (harorat o'zgarmaydi deb hisoblang)?",
+    options: [
+      { key: "A", text: "1000 atm" },
+      { key: "B", text: "0,1 atm" },
+      { key: "C", text: "10 atm" },
+      { key: "D", text: "1 atm" },
+    ],
+    answer: "B",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$P_2 = 10 \\cdot 0{,}5/50 = 0{,}1$ atm.",
+        note: "Xavfsizlik yostig'i soniyaning bir ulushida shishishi aynan shu tez gaz kengayishi tufayli.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Bo'lish yo'nalishi teskari olindi." },
+      { when: "C", text: "Hajm juda ortsa, bosim juda kamayadi." },
+    ],
+  },
+  {
+    slug: "mol-032",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "Sport musobaqalarida ishlatiladigan signal balonchasida 150 ml siqilgan gaz 8 atm bosimda bor edi. Signal berilganda gaz tashqi muhitga chiqib, 1200 ml hajmni egallaydi (harorat o'zgarmaydi deb hisoblang). Oxirgi bosimni toping.",
+    options: [
+      { key: "A", text: "64 atm" },
+      { key: "B", text: "8 atm" },
+      { key: "C", text: "2 atm" },
+      { key: "D", text: "1 atm" },
+    ],
+    answer: "D",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$P_2 = 8 \\cdot 150/1200 = 1$ atm.",
+        note: "Shuning uchun signal balonchasi siqilgan holatda juda qattiq, ishlatilgach esa bo'shashadi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Bo'lish yo'nalishi teskari olindi." },
+      { when: "B", text: "Hajm ortsa, bosim kamayishi kerak." },
+    ],
+  },
+  {
+    slug: "mol-033",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "HARD",
+    text: "Stakan ostida yonib turgan sham atrofidagi havoni 80°C gacha isitgan, stakan ichidagi havo hajmi 500 ml edi. Sham o'chirilgach, bosim atmosfera bosimiga teng saqlangan holda harorat 20°C ga tushganda, havo hajmi qancha bo'ladi?",
+    options: [
+      { key: "A", text: "415 ml" },
+      { key: "B", text: "602,4 ml" },
+      { key: "C", text: "500 ml" },
+      { key: "D", text: "380 ml" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "Bosim o'zgarmas (Sharl qonuni): $V_1/T_1 = V_2/T_2$, $T_1=353$ K, $T_2=293$ K." },
+      {
+        text: "$V_2 = 500 \\cdot 293/353 \\approx 415$ ml.",
+        note: "Bu mashhur fizika tajribasi — sham o'chgach stakan ostiga suv so'rilib kirishini ko'rsatadi.",
+      },
+    ],
+    mistakes: [
+      { when: "B", text: "Harorat nisbati teskari olindi." },
+      { when: "C", text: "Bosim o'zgarmas bo'lsa ham, harorat pasayganda hajm kamayadi (Sharl qonuni)." },
+    ],
+  },
+  {
+    slug: "mol-034",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "32 g tabiiy gaz (metan, CH₄) necha mol ekanligini toping. (Metanning molyar massasi 16 g/mol.)",
+    options: [
+      { key: "A", text: "0,5 mol" },
+      { key: "B", text: "512 mol" },
+      { key: "C", text: "2 mol" },
+      { key: "D", text: "32 mol" },
+    ],
+    answer: "C",
+    solution: [
+      { text: "$\\nu = m/M$." },
+      {
+        text: "$\\nu = 32/16 = 2$ mol.",
+        note: "Tabiiy gaz (metan) O'zbekiston uylarida asosiy yoqilg'i turi hisoblanadi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Bo'lish yo'nalishi teskari olindi." },
+      { when: "B", text: "Bo'lish o'rniga ko'paytirdingiz." },
+    ],
+  },
+  {
+    slug: "mol-035",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "88 g uglerod (IV) oksidi (CO₂) gazida necha mol modda bor? (CO₂ molyar massasi 44 g/mol.)",
+    options: [
+      { key: "A", text: "0,5 mol" },
+      { key: "B", text: "2 mol" },
+      { key: "C", text: "3872 mol" },
+      { key: "D", text: "88 mol" },
+    ],
+    answer: "B",
+    solution: [
+      { text: "$\\nu = m/M$." },
+      {
+        text: "$\\nu = 88/44 = 2$ mol.",
+        note: "Gazlangan ichimliklardagi 'pufakchalar' aynan shu CO₂ gazi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Bo'lish yo'nalishi teskari olindi." },
+      { when: "C", text: "Bo'lish o'rniga ko'paytirdingiz." },
+    ],
+  },
+  {
+    slug: "mol-036",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "3 mol vodorod gazi (H₂) necha gramm ekanligini toping. (Vodorodning molyar massasi 2 g/mol.)",
+    options: [
+      { key: "A", text: "0,67 g" },
+      { key: "B", text: "5 g" },
+      { key: "C", text: "1,5 g" },
+      { key: "D", text: "6 g" },
+    ],
+    answer: "D",
+    solution: [
+      { text: "$m = \\nu M$." },
+      {
+        text: "$m = 3 \\cdot 2 = 6$ g.",
+        note: "Vodorod eng yengil gaz — shuning uchun vodorodli sharlar osongina ko'tariladi.",
+      },
+    ],
+    mistakes: [{ when: "A", text: "Ko'paytirish o'rniga bo'lib yubordingiz." }],
+  },
+  {
+    slug: "mol-037",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Agar gaz harorati Kelvin shkalasida 2 marta oshirilsa (hajm o'zgarmasa), molekulalarning o'rtacha kinetik energiyasi necha marta ortadi?",
+    options: [
+      { key: "A", text: "2 marta" },
+      { key: "B", text: "4 marta" },
+      { key: "C", text: "1,41 marta" },
+      { key: "D", text: "O'zgarmaydi" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "O'rtacha kinetik energiya $E = \\dfrac{3}{2}kT$, ya'ni $E$ to'g'ridan-to'g'ri $T$ ga proporsional." },
+      {
+        text: "Harorat 2 marta oshsa, $E$ ham aynan 2 marta ortadi.",
+        note: "Shuning uchun issiqlik gaz molekulalarining harakat energiyasini haroratga chiziqli bog'liq holda oshiradi.",
+      },
+    ],
+    mistakes: [
+      { when: "B", text: "Kinetik energiya tezlikning kvadratiga emas, to'g'ridan-to'g'ri haroratga proporsional: $E \\sim T$." },
+      { when: "C", text: "Bu tezlikning necha marta ortishi ($v \\sim \\sqrt{T}$), energiyaning emas." },
+    ],
+  },
+  {
+    slug: "mol-038",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Poyezd vagonining konditsioner tizimida 600 sm³ gaz 1,2 atm bosimda bor edi. Kompressor uni 150 sm³ gacha siqadi (harorat o'zgarmaydi). Bosimni toping.",
+    options: [
+      { key: "A", text: "0,3 atm" },
+      { key: "B", text: "4,8 atm" },
+      { key: "C", text: "1,2 atm" },
+      { key: "D", text: "4 atm" },
+    ],
+    answer: "B",
+    solution: [
+      { text: "$P_1 V_1 = P_2 V_2$." },
+      {
+        text: "$P_2 = 1{,}2 \\cdot 600/150 = 4{,}8$ atm.",
+        note: "Poyezd konditsionerlari ham xuddi shu siqish-kengaytirish printsipi asosida ishlaydi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Hajmlar nisbati teskari olindi." },
+      { when: "C", text: "Hajm kamaysa, bosim ortadi." },
+    ],
+  },
+  {
+    slug: "mol-039",
+    topicCode: "2.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "Qoraqalpog'iston, Nukus shahrida qishning sovuq kunlaridan birida harorat −25°C ni tashkil etdi. Bu Kelvin shkalasida necha gradusga teng?",
+    options: [
+      { key: "A", text: "298 K" },
+      { key: "B", text: "273 K" },
+      { key: "C", text: "−298 K" },
+      { key: "D", text: "248 K" },
+    ],
+    answer: "D",
+    solution: [
+      { text: "$T = t + 273$." },
+      {
+        text: "$T = -25 + 273 = 248$ K.",
+        note: "Qoraqalpog'istonda qishki haroratlar ba'zan −25°C dan ham pastga tushadi.",
+      },
+    ],
+    mistakes: [
+      { when: "A", text: "Manfiy ishorani hisobga olmadingiz." },
+      { when: "B", text: "Haroratning o'zini (−25°C) hisobga olmadingiz." },
+    ],
+  },
+  {
+    slug: "mol-040",
+    topicCode: "2.1",
+    type: "O",
+    difficulty: "HARD",
+    text: "Avtomobil shinasining hajmi 15 litr. Qishda 7°C da shinani pompalaganda bosim 2 atm bo'ldi. Yozda harorat 37°C ga ko'tarilganda (hajm o'zgarmaydi), yangi bosimni va bosim o'zgarishini (foizda) toping.",
+    options: [
+      { key: "a", label: "Yangi bosim", unit: "atm" },
+      { key: "b", label: "Bosim ortishi", unit: "%" },
+    ],
+    answer: { values: { a: 2.21, b: 10.7 }, tolerance: 0.05 },
+    solution: [
+      { text: "$P_1/T_1 = P_2/T_2$, $T_1=280$ K, $T_2=310$ K." },
+      { text: "$P_2 = 2 \\cdot 310/280 \\approx 2{,}21$ atm." },
+      {
+        text: "Ortish: $(P_2-P_1)/P_1 \\cdot 100\\% = (2{,}21-2)/2 \\cdot 100\\% \\approx 10{,}7\\%$.",
+        note: "Shuning uchun mavsum almashganda shina bosimini qayta tekshirish tavsiya etiladi.",
+      },
+    ],
+  },
 ];
 
 function json(value: unknown): Prisma.InputJsonValue {
