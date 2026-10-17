@@ -5,6 +5,18 @@ import { sanitizeInternalPath } from "@/lib/safe-path";
 import { publicOrigin } from "@/lib/request-origin";
 
 export function proxy(request: NextRequest) {
+  const host = request.headers.get("host") ?? "";
+  const isRoot = request.nextUrl.pathname === "/";
+
+  // head.fizzo.app serves the same app, but should land straight on the admin dashboard.
+  if (isRoot && host.startsWith("head.")) {
+    return NextResponse.rewrite(new URL("/admin", request.url));
+  }
+
+  if (isRoot) {
+    return NextResponse.next();
+  }
+
   if (request.cookies.has(SESSION_COOKIE_NAME)) {
     return NextResponse.next();
   }
@@ -19,6 +31,6 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|kirish|$|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp|webmanifest)$).*)",
+    "/((?!api|_next/static|_next/image|kirish|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp|webmanifest)$).*)",
   ],
 };

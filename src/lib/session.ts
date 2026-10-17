@@ -35,6 +35,9 @@ export function sessionCookieOptions() {
     httpOnly: true,
     secure: isProd,
     sameSite: (isProd ? "none" : "lax") as "none" | "lax",
+    // Shared across fizzo.app and its subdomains (e.g. head.fizzo.app) so an
+    // admin session from the main site also works on the admin dashboard.
+    domain: isProd ? ".fizzo.app" : undefined,
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
   };

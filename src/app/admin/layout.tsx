@@ -11,6 +11,9 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
         <div className="page-wide" style={{ display: "flex", alignItems: "center", gap: 20, padding: 0 }}>
           <Logo height={20} />
           <nav style={{ display: "flex", gap: 16 }}>
+            <Link href="/admin" style={{ fontSize: 14, fontWeight: 600 }}>
+              Dashboard
+            </Link>
             <Link href="/admin/savollar" style={{ fontSize: 14, fontWeight: 600 }}>
               Savollar
             </Link>
