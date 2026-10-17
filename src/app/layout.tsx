@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Onest, STIX_Two_Text, Unbounded } from "next/font/google";
 import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { TelegramBootstrap } from "@/components/telegram-bootstrap";
+import { env } from "@/lib/env";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 
@@ -53,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <TelegramBootstrap />
         {children}
       </body>
+      {env.gaMeasurementId && <GoogleAnalytics gaId={env.gaMeasurementId} />}
     </html>
   );
 }

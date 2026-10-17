@@ -10,6 +10,12 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 # Schema-only value: `prisma generate` and `next build` never open a connection.
 ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
+# NEXT_PUBLIC_* vars are inlined into the JS bundle at build time, not read at
+# container runtime — they must come in as build args, not just `environment:`.
+ARG NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
+ARG NEXT_PUBLIC_GA_MEASUREMENT_ID
+ENV NEXT_PUBLIC_TELEGRAM_BOT_USERNAME=$NEXT_PUBLIC_TELEGRAM_BOT_USERNAME
+ENV NEXT_PUBLIC_GA_MEASUREMENT_ID=$NEXT_PUBLIC_GA_MEASUREMENT_ID
 RUN npx prisma generate
 RUN npm run build
 

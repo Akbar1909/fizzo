@@ -38,17 +38,27 @@ npm run build   # production build
 1. Telegram'da [@BotFather](https://t.me/BotFather) bilan suhbat oching.
 2. `/newbot` — bot nomi va username so'raydi (masalan `fizzo_bot`). Natijada olingan tokenni `.env`dagi `TELEGRAM_BOT_TOKEN`ga, usernameni `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`ga yozing.
 3. **Mini App** sifatida ochish uchun:
-   - `/newapp` — botingizni tanlang, nom va rasm yuklang, so'ralganda ilovangiz manzilini kiriting: `https://fizzo.uz/kirish` (tavsiya etiladi — darhol kirish oynasini ochadi). Bosh sahifa `https://fizzo.uz` ham ishlaydi: Mini App ichida ochilganda avtomatik aniqlab darhol kirgazadi, oddiy brauzerda esa marketing sahifasini ko'rsatadi.
+   - `/newapp` — botingizni tanlang, nom va rasm yuklang, so'ralganda ilovangiz manzilini kiriting: `https://fizzo.app/kirish` (tavsiya etiladi — darhol kirish oynasini ochadi). Bosh sahifa `https://fizzo.app` ham ishlaydi: Mini App ichida ochilganda avtomatik aniqlab darhol kirgazadi, oddiy brauzerda esa marketing sahifasini ko'rsatadi.
    - Yoki mavjud botga tugma qo'shish uchun `/setmenubutton` — botni tanlang, tugma matni (masalan "Boshlash") va URL'ni kiriting.
-4. **Login Widget** domenni tasdiqlash uchun `/setdomain` — ilova joylashgan domenni kiriting (masalan `fizzo.uz`). Bu `/kirish` sahifasidagi Telegram Login Widget ishlashi uchun shart.
+4. **Login Widget** domenni tasdiqlash uchun `/setdomain` — ilova joylashgan domenni kiriting (masalan `fizzo.app`). Bu `/kirish` sahifasidagi Telegram Login Widget ishlashi uchun shart.
 5. Bot avatari uchun `/setuserpic` — `fizzo-logos/telegram/telegram-avatar-640.png` faylini yuklang.
 6. Agar fikr-mulohaza/xatolar uchun alohida yordam boti ishlatmoqchi bo'lsangiz, xuddi shu botni qoldirsangiz ham bo'laveradi — "Savolda xato bormi?" havolasi botga `?start=xato-<slug>` parametri bilan ochiladi.
 
 > `fizzo-logos/` papkasida brend uchun tayyor fayllar bor: `svg/` — ilovaning sarlavhalarida ko'rinadigan asl vektor logotip (`src/components/logo.tsx`, yorug'/qorong'i mavzuga avtomatik moslashadi), `png/` — chop etish uchun rasmlar, `web/` — favicon/PWA belgilari (allaqachon ulangan). `fizzo-landing/` papkasidagi statik sahifa esa `/` manzilidagi marketing (landing) sahifasi sifatida `src/components/landing/` ichida implement qilingan — kirmagan foydalanuvchiga shu sahifa, kirgan foydalanuvchiga esa "Bugun" sahifasi ko'rsatiladi.
 
-## 4. VPS'ga joylashtirish (Docker + Nginx)
+## 4. Trafik tahlili (Google Analytics)
 
-### 4.1. Serverni tayyorlash
+Qaysi manbadan (referrer, mamlakat) va qancha foydalanuvchi kelayotganini ko'rish uchun GA4 ulangan (`@next/third-parties/google`, `src/app/layout.tsx`).
+
+1. [analytics.google.com](https://analytics.google.com) da yangi GA4 mulk (property) yarating, domen sifatida `fizzo.app`ni kiriting.
+2. Olingan o'lchov ID'ni (`G-` bilan boshlanadi) `.env`dagi `NEXT_PUBLIC_GA_MEASUREMENT_ID`ga yozing.
+3. Bo'sh qoldirilsa, GA skripti umuman yuklanmaydi (lokal/dev muhitda shunday qoldiring).
+
+> **Muhim:** `NEXT_PUBLIC_*` o'zgaruvchilar Next.js tomonidan **build vaqtida** JS bundle'ga yoziladi, runtime'da emas. Docker orqali deploy qilganda bu qiymat `docker compose --profile prod build app` bosqichida `.env`dan build-arg sifatida o'qiladi (`docker-compose.yml`dagi `app.build.args`) — shuning uchun uni o'zgartirgandan keyin konteynerni qayta ishga tushirish yetarli emas, **qayta build qilish** kerak (4.4-bo'limga qarang).
+
+## 5. VPS'ga joylashtirish (Docker + Nginx)
+
+### 5.1. Serverni tayyorlash
 
 ```bash
 git clone <repo-url> fizzo && cd fizzo
@@ -59,11 +69,12 @@ cp .env.example .env
 #   SESSION_SECRET — kamida 32 ta tasodifiy belgi: openssl rand -base64 48
 #   ADMIN_TELEGRAM_IDS — vergul bilan ajratilgan Telegram ID'lar
 #   DEV_LOGIN="false"
+#   NEXT_PUBLIC_GA_MEASUREMENT_ID — ixtiyoriy, 4-bo'limga qarang
 ```
 
-`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`.
+`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (4-bo'limdagi eslatmaga qarang).
 
-### 4.2. Build va ishga tushirish
+### 5.2. Build va ishga tushirish
 
 ```bash
 docker compose --profile prod build app
@@ -78,23 +89,23 @@ docker compose --profile prod run --rm app npm run db:seed
 
 Ilova konteyner ichida `3000`-portda ishlaydi va host'da ham `3000`-portga bog'langan (`docker-compose.yml`).
 
-### 4.3. Nginx (HTTPS bilan)
+### 5.3. Nginx (HTTPS bilan)
 
 Telegram Mini App faqat HTTPS orqali ochiladi, shuning uchun Nginx + Let's Encrypt kerak.
 
 ```nginx
 server {
     listen 80;
-    server_name fizzo.uz;
+    server_name fizzo.app;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name fizzo.uz;
+    server_name fizzo.app;
 
-    ssl_certificate     /etc/letsencrypt/live/fizzo.uz/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/fizzo.uz/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/fizzo.app/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/fizzo.app/privkey.pem;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -112,12 +123,12 @@ server {
 Sertifikat olish uchun (Certbot o'rnatilgan bo'lsa):
 
 ```bash
-sudo certbot --nginx -d fizzo.uz
+sudo certbot --nginx -d fizzo.app
 ```
 
-Keyin BotFather'da `/setdomain` va Mini App manzilini `https://fizzo.uz` qilib belgilang.
+Keyin BotFather'da `/setdomain` va Mini App manzilini `https://fizzo.app` qilib belgilang.
 
-### 4.4. Yangilash
+### 5.4. Yangilash
 
 ```bash
 git pull
@@ -126,7 +137,7 @@ docker compose --profile prod run --rm app npx prisma migrate deploy
 docker compose --profile prod up -d app
 ```
 
-## 5. Zaxira nusxa (backup)
+## 6. Zaxira nusxa (backup)
 
 Postgres ma'lumotlar bazasini har kuni zaxiralash uchun serverda cron sozlang:
 
@@ -153,7 +164,7 @@ Tiklash uchun:
 gunzip -c /var/backups/fizzo/fizzo-2026-03-05.sql.gz | docker compose exec -T db psql -U fizzo fizzo
 ```
 
-## 6. Loyiha tuzilishi (qisqacha)
+## 7. Loyiha tuzilishi (qisqacha)
 
 - `src/app/(app)/` — autentifikatsiya talab qiladigan sahifalar (Bugun, Mavzular, Mashq, Mock test, Natijalar).
 - `src/app/admin/` — kontent boshqaruv paneli (`ADMIN_TELEGRAM_IDS` talab qiladi).
@@ -162,6 +173,6 @@ gunzip -c /var/backups/fizzo/fizzo-2026-03-05.sql.gz | docker compose exec -T db
 - `src/lib/` — autentifikatsiya, javob tekshirish, seriya (streak), mashq tanlash va mock test mantiqi.
 - `prisma/schema.prisma`, `prisma/seed.ts` — ma'lumotlar bazasi sxemasi va boshlang'ich kontent.
 
-## 7. Qamrovdan tashqarida (MVP)
+## 8. Qamrovdan tashqarida (MVP)
 
 To'lov/Premium, reyting jadvali/XP, video darslar, boshqa fanlar, rus tilidagi interfeys, ishlash vaqtida AI tomonidan yaratiladigan tushuntirishlar.
