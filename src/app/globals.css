@@ -923,7 +923,15 @@ html[data-telegram-app] .today-side-panel {
   }
   .practice-figure-col {
     grid-column: 2;
-    grid-row: 1 / -1;
+    /* practice-grid has no grid-template-rows (rows are implicit), so "-1"
+       doesn't resolve to "last row" here - it refers to the explicit grid,
+       which has none, making both "1 / -1" and "2 / -1" degenerate (the
+       sidebar ended up pinned to row 1 regardless, starting at the very top
+       of the page while the question sat a full row below it). The main
+       column is always exactly 2 rows after the header (question+options,
+       then feedback-or-buttons), so span that explicitly instead.
+    */
+    grid-row: 2 / span 2;
     position: sticky;
     top: 20px;
   }
