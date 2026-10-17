@@ -53,7 +53,7 @@ export interface MistakeEntry {
 
 export type QuestionMistakes = MistakeEntry[] | null;
 
-export type FigureTemplate = "incline" | "atwood" | "table-pulley";
+export type FigureTemplate = "incline" | "atwood" | "table-pulley" | "free-fall";
 
 export interface InclineParams {
   angle: number;
@@ -72,7 +72,11 @@ export interface TablePulleyParams {
   mu: number;
 }
 
-export type FigureParams = InclineParams | AtwoodParams | TablePulleyParams;
+export interface FreeFallParams {
+  height: number;
+}
+
+export type FigureParams = InclineParams | AtwoodParams | TablePulleyParams | FreeFallParams;
 
 export interface QuestionFigure {
   template: FigureTemplate;

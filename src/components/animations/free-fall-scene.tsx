@@ -9,16 +9,33 @@ import { KatexFormula } from "@/components/katex-formula";
 const VIEW_W = 360;
 const VIEW_H = 320;
 const GROUND_Y = 280;
+const TOP_MARGIN = 30;
+const AVAILABLE_PX = GROUND_Y - TOP_MARGIN;
 const RULER_X = 56;
 const BALL_X = 220;
-const PX_PER_METER = 6;
 const MIN_H = 5;
-const MAX_H = 40;
+// No `initialHeight` prop means this is the free-exploration demo page, not
+// a specific question - keep its original wide drag range. When a question
+// supplies a height, the ruler must be scaled to actually fit it: a fixed
+// 40m ceiling silently clamped questions using e.g. 80m, making the
+// animation show physics inconsistent with the question's own numbers.
+const DEMO_MAX_H = 40;
 const DEFAULT_H = 20;
 const BALL_RADIUS = 9;
-const V_SCALE = 2.5; // px per (m/s), fixed so the arrow never rescales with h0
+const TARGET_MAX_VELOCITY_ARROW_PX = 70;
 const ACCEL_ARROW_LEN = 48;
 const ACCEL_OFFSET_X = 28;
+
+function computeRulerMax(height: number): number {
+  return Math.max(10, Math.ceil((height * 1.15) / 5) * 5);
+}
+
+function computeMajorTickStep(rulerMax: number): number {
+  if (rulerMax <= 30) return 5;
+  if (rulerMax <= 60) return 10;
+  if (rulerMax <= 120) return 20;
+  return 25;
+}
 // The fall itself only lasts 1-3 real seconds, too fast to read the changing
 // numbers - play it in slow motion. The physics is still real (x(t)/v(t)
 // integrated each frame), just time-dilated, the same way a slow-motion
@@ -29,8 +46,8 @@ const TIME_SCALE = 0.3;
 // a blur, not a value you can follow.
 const TEXT_UPDATE_INTERVAL_MS = 180;
 
-function heightToY(height: number): number {
-  return GROUND_Y - height * PX_PER_METER;
+function heightToY(height: number, pxPerMeter: number): number {
+  return GROUND_Y - height * pxPerMeter;
 }
 
 /** Arrow tip Y, clamped so vectors never visually cross the ground line. */
@@ -38,16 +55,24 @@ function clampedArrowEnd(startY: number, length: number): number {
   return startY + Math.min(length, Math.max(0, GROUND_Y - startY));
 }
 
-function clientToHeight(svg: SVGSVGElement, clientY: number): number {
+function clientToHeight(svg: SVGSVGElement, clientY: number, pxPerMeter: number, rulerMax: number): number {
   const point = svg.createSVGPoint();
   point.y = clientY;
   const ctm = svg.getScreenCTM();
   const svgY = ctm ? point.matrixTransform(ctm.inverse()).y : clientY;
-  const height = (GROUND_Y - svgY) / PX_PER_METER;
-  return Math.min(MAX_H, Math.max(MIN_H, height));
+  const height = (GROUND_Y - svgY) / pxPerMeter;
+  return Math.min(rulerMax, Math.max(MIN_H, height));
 }
 
-export function FreeFallScene() {
+export function FreeFallScene({ initialHeight }: { initialHeight?: number } = {}) {
+  // Scoped tightly around a question's own height when given; otherwise the
+  // standalone demo page gets its original wide free-exploration range.
+  const rulerMax = initialHeight === undefined ? DEMO_MAX_H : computeRulerMax(initialHeight);
+  const pxPerMeter = AVAILABLE_PX / rulerMax;
+  const vScale = TARGET_MAX_VELOCITY_ARROW_PX / Math.sqrt(2 * GRAVITY * rulerMax);
+  const majorStep = computeMajorTickStep(rulerMax);
+  const minorStep = majorStep <= 5 ? 1 : majorStep <= 10 ? 2 : 5;
+
   const svgRef = useRef<SVGSVGElement>(null);
   const ballRef = useRef<SVGCircleElement>(null);
   const guideLineRef = useRef<SVGLineElement>(null);
@@ -62,14 +87,16 @@ export function FreeFallScene() {
   const velocityTextRef = useRef<HTMLSpanElement>(null);
   const heightTextRef = useRef<HTMLSpanElement>(null);
 
-  const [h0, setH0] = useState(DEFAULT_H);
+  const [h0, setH0] = useState(() =>
+    initialHeight === undefined ? DEFAULT_H : Math.min(rulerMax, Math.max(MIN_H, initialHeight)),
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [landed, setLanded] = useState(false);
   const [canSetInitialHeight, setCanSetInitialHeight] = useState(true);
 
   const elapsedRef = useRef(0);
-  const dragHeightRef = useRef(DEFAULT_H);
+  const dragHeightRef = useRef(initialHeight ?? DEFAULT_H);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number | null>(null);
   const lastTextUpdateRef = useRef(0);
@@ -85,9 +112,9 @@ export function FreeFallScene() {
       const clampedT = Math.min(t, fallTime);
       const v = GRAVITY * clampedT;
       const height = Math.max(0, h0 - 0.5 * GRAVITY * clampedT * clampedT);
-      const ballY = heightToY(height);
+      const ballY = heightToY(height, pxPerMeter);
       const vectorStartY = ballY + BALL_RADIUS;
-      const vEndY = clampedArrowEnd(vectorStartY, v * V_SCALE);
+      const vEndY = clampedArrowEnd(vectorStartY, v * vScale);
       const aEndY = clampedArrowEnd(vectorStartY, ACCEL_ARROW_LEN);
       // Once it lands there's no more motion to show a vector for, and there's
       // no room left to draw one before the ground anyway - hide rather than
@@ -119,7 +146,7 @@ export function FreeFallScene() {
       }
       if (sliderRef.current) sliderRef.current.value = String(clampedT);
     },
-    [h0, fallTime],
+    [h0, fallTime, pxPerMeter, vScale],
   );
 
   useEffect(() => {
@@ -191,9 +218,9 @@ export function FreeFallScene() {
 
   const handleSvgPointerMove = (event: React.PointerEvent<SVGSVGElement>) => {
     if (!isDragging || !svgRef.current) return;
-    const height = clientToHeight(svgRef.current, event.clientY);
+    const height = clientToHeight(svgRef.current, event.clientY, pxPerMeter, rulerMax);
     dragHeightRef.current = height;
-    const y = heightToY(height);
+    const y = heightToY(height, pxPerMeter);
     const vectorStartY = y + BALL_RADIUS;
     const aEndY = clampedArrowEnd(vectorStartY, ACCEL_ARROW_LEN);
 
@@ -216,11 +243,11 @@ export function FreeFallScene() {
   };
 
   const majorTicks: number[] = [];
-  for (let m = 0; m <= MAX_H; m += 5) majorTicks.push(m);
+  for (let m = 0; m <= rulerMax; m += majorStep) majorTicks.push(m);
   const minorTicks: number[] = [];
-  for (let m = 0; m <= MAX_H; m += 1) if (m % 5 !== 0) minorTicks.push(m);
+  for (let m = 0; m <= rulerMax; m += minorStep) if (m % majorStep !== 0) minorTicks.push(m);
 
-  const initialBallY = heightToY(h0);
+  const initialBallY = heightToY(h0, pxPerMeter);
   const initialVectorStartY = initialBallY + BALL_RADIUS;
   const initialAccelEndY = clampedArrowEnd(initialVectorStartY, ACCEL_ARROW_LEN);
 
@@ -254,9 +281,9 @@ export function FreeFallScene() {
 
         <line
           x1={RULER_X}
-          y1={heightToY(0)}
+          y1={heightToY(0, pxPerMeter)}
           x2={RULER_X}
-          y2={heightToY(MAX_H)}
+          y2={heightToY(rulerMax, pxPerMeter)}
           style={{ stroke: sceneTheme.color.grid, strokeWidth: sceneTheme.stroke.ruler }}
         />
         {majorTicks.map((m) => (
@@ -264,13 +291,13 @@ export function FreeFallScene() {
             <line
               x1={RULER_X - 6}
               x2={RULER_X}
-              y1={heightToY(m)}
-              y2={heightToY(m)}
+              y1={heightToY(m, pxPerMeter)}
+              y2={heightToY(m, pxPerMeter)}
               style={{ stroke: sceneTheme.color.muted, strokeWidth: sceneTheme.stroke.ruler }}
             />
             <text
               x={RULER_X - 10}
-              y={heightToY(m) + 4}
+              y={heightToY(m, pxPerMeter) + 4}
               textAnchor="end"
               fontSize={sceneTheme.font.label}
               style={{ fill: sceneTheme.color.muted, fontFamily: sceneTheme.font.ui }}
@@ -284,8 +311,8 @@ export function FreeFallScene() {
             key={`minor-${m}`}
             x1={RULER_X - 3}
             x2={RULER_X}
-            y1={heightToY(m)}
-            y2={heightToY(m)}
+            y1={heightToY(m, pxPerMeter)}
+            y2={heightToY(m, pxPerMeter)}
             style={{ stroke: sceneTheme.color.grid, strokeWidth: 1 }}
           />
         ))}
@@ -294,15 +321,15 @@ export function FreeFallScene() {
           ref={guideLineRef}
           x1={RULER_X}
           x2={BALL_X}
-          y1={heightToY(h0)}
-          y2={heightToY(h0)}
+          y1={heightToY(h0, pxPerMeter)}
+          y2={heightToY(h0, pxPerMeter)}
           style={{ stroke: sceneTheme.color.muted, strokeWidth: 1, strokeDasharray: "4 4" }}
         />
 
         <circle
           ref={ballRef}
           cx={BALL_X}
-          cy={heightToY(h0)}
+          cy={heightToY(h0, pxPerMeter)}
           r={BALL_RADIUS}
           onPointerDown={handleBallPointerDown}
           style={{ fill: sceneTheme.color.ink, cursor: canDrag ? "grab" : "default" }}
@@ -310,7 +337,7 @@ export function FreeFallScene() {
         {canDrag && (
           <text
             x={BALL_X + 16}
-            y={heightToY(h0) - 14}
+            y={heightToY(h0, pxPerMeter) - 14}
             fontSize={sceneTheme.font.label}
             style={{ fill: sceneTheme.color.muted, fontFamily: sceneTheme.font.ui }}
           >

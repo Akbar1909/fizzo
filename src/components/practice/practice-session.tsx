@@ -13,6 +13,8 @@ import type {
 import { MarkdownMath } from "@/components/markdown-math";
 import { StaticFigure } from "@/components/animations/static-figure";
 import { AnimationPlayer } from "@/components/animations/animation-player";
+import { FreeFallScene } from "@/components/animations/free-fall-scene";
+import type { FreeFallParams } from "@/lib/content-types";
 import { notifyHaptic } from "@/lib/haptics";
 import { checkAnswerAction } from "@/app/(app)/mashq/[mavzu]/actions";
 import { Y1Options } from "./y1-options";
@@ -65,6 +67,21 @@ export function PracticeSession({
 
   const question = questions[index];
   const answered = question ? isAnswered(question, response) : false;
+
+  // free-fall is a self-contained, continuously interactive simulation with
+  // its own play/pause/scrub controls - it renders the same way whether
+  // answered or not, unlike the discrete-step captioned walkthrough the
+  // other templates use via AnimationPlayer.
+  function renderFigure(figure: NonNullable<PublicQuestion["figure"]>, mode: "static" | "animated") {
+    if (figure.template === "free-fall") {
+      return <FreeFallScene initialHeight={(figure.params as FreeFallParams).height} />;
+    }
+    return mode === "static" ? (
+      <StaticFigure template={figure.template} params={figure.params} />
+    ) : (
+      <AnimationPlayer template={figure.template} params={figure.params} />
+    );
+  }
 
   function goNext() {
     const nextIndex = index + 1;
@@ -271,12 +288,10 @@ export function PracticeSession({
 
       {hasSideColumn && (
         <div className="practice-figure-col stack">
-          {!feedback && question.figure && (
-            <StaticFigure template={question.figure.template} params={question.figure.params} />
-          )}
+          {!feedback && question.figure && renderFigure(question.figure, "static")}
           {feedback && (
             <>
-              {question.figure && <AnimationPlayer template={question.figure.template} params={question.figure.params} />}
+              {question.figure && renderFigure(question.figure, "animated")}
               {feedback.stats && <QuestionStatsCard stats={feedback.stats} question={question} />}
             </>
           )}

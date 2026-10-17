@@ -255,6 +255,69 @@ const QUESTIONS: QuestionSeed[] = [
       { text: "Ishqalanish koeffitsiyenti — birliksiz kattalik." },
     ],
   },
+  {
+    slug: "kin-001",
+    topicCode: "1.1",
+    type: "Y1",
+    difficulty: "EASY",
+    text: "Tosh 45 m balandlikdan boshlang'ich tezliksiz erkin tushmoqda. Tosh yerga necha soniyada yetib boradi? ($g = 10$ m/s² deb oling.)",
+    options: [
+      { key: "A", text: "3 s" },
+      { key: "B", text: "9 s" },
+      { key: "C", text: "4,5 s" },
+      { key: "D", text: "6 s" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "Erkin tushishda $h = \\dfrac{1}{2}gt^2$, bundan $t = \\sqrt{\\dfrac{2h}{g}}$." },
+      { text: "$t = \\sqrt{\\dfrac{2 \\cdot 45}{10}} = \\sqrt{9} = 3$ s." },
+    ],
+    mistakes: [
+      { when: "B", text: "Kvadrat ildiz olishni unutdingiz: $t \\ne \\dfrac{2h}{g}$, balki $t = \\sqrt{\\dfrac{2h}{g}}$." },
+      { when: "C", text: "Formula noto'g'ri qo'llanildi: $t \\ne h/g$." },
+    ],
+    figure: { template: "free-fall", params: { height: 45 } },
+  },
+  {
+    slug: "kin-002",
+    topicCode: "1.1",
+    type: "Y1",
+    difficulty: "MEDIUM",
+    text: "Jism 80 m balandlikdan boshlang'ich tezliksiz erkin tushmoqda. Yerga yetganda uning tezligi qanday bo'ladi? ($g = 10$ m/s² deb oling.)",
+    options: [
+      { key: "A", text: "40 m/s" },
+      { key: "B", text: "1600 m/s" },
+      { key: "C", text: "28,3 m/s" },
+      { key: "D", text: "8 m/s" },
+    ],
+    answer: "A",
+    solution: [
+      { text: "Erkin tushishda $v^2 = 2gh$, bundan $v = \\sqrt{2gh}$." },
+      { text: "$v = \\sqrt{2 \\cdot 10 \\cdot 80} = \\sqrt{1600} = 40$ m/s." },
+    ],
+    mistakes: [
+      { when: "B", text: "Bu $v^2$ ning qiymati — tezlikning o'zini topish uchun kvadrat ildiz olish kerak." },
+      { when: "D", text: "Formula noto'g'ri qo'llanildi: $v \\ne h/g$." },
+    ],
+    figure: { template: "free-fall", params: { height: 80 } },
+  },
+  {
+    slug: "kin-003",
+    topicCode: "1.1",
+    type: "O",
+    difficulty: "HARD",
+    text: "Jism 20 m balandlikdan boshlang'ich tezliksiz erkin tushmoqda. Yerga yetguncha ketgan vaqtni va yerga urilish tezligini toping. ($g = 10$ m/s² deb oling.)",
+    options: [
+      { key: "a", label: "Tushish vaqti", unit: "s" },
+      { key: "b", label: "Yerga urilish tezligi", unit: "m/s" },
+    ],
+    answer: { values: { a: 2, b: 20 }, tolerance: 0.03 },
+    solution: [
+      { text: "Tushish vaqti: $t = \\sqrt{\\dfrac{2h}{g}} = \\sqrt{\\dfrac{2 \\cdot 20}{10}} = \\sqrt{4} = 2$ s." },
+      { text: "Yerga urilish tezligi: $v = gt = 10 \\cdot 2 = 20$ m/s." },
+    ],
+    figure: { template: "free-fall", params: { height: 20 } },
+  },
 ];
 
 function json(value: unknown): Prisma.InputJsonValue {
