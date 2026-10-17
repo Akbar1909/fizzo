@@ -12,6 +12,7 @@ export default async function KirishPage({ searchParams }: PageProps<"/kirish">)
   const hasError = typeof params.xato === "string";
 
   const authUrl = `/api/auth/telegram-widget?keyin=${encodeURIComponent(keyin)}`;
+  const googleAuthUrl = `/api/auth/google?keyin=${encodeURIComponent(keyin)}`;
 
   return (
     <main className="page" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", paddingTop: 48, paddingBottom: 48 }}>
@@ -38,6 +39,15 @@ export default async function KirishPage({ searchParams }: PageProps<"/kirish">)
         <div style={{ marginTop: 16 }}>
           <TelegramLoginWidget botUsername={env.telegramBotUsername} authUrl={authUrl} />
         </div>
+
+        {env.googleClientId && (
+          <>
+            <span style={{ color: "var(--quiet)", fontSize: 13 }}>yoki</span>
+            <a href={googleAuthUrl} className="btn btn-block" style={{ maxWidth: 280 }}>
+              Google bilan kirish
+            </a>
+          </>
+        )}
 
         {env.devLoginEnabled && (
           <form action={devLoginAction} style={{ marginTop: 8 }}>

@@ -46,7 +46,28 @@ npm run build   # production build
 
 > `fizzo-logos/` papkasida brend uchun tayyor fayllar bor: `svg/` — ilovaning sarlavhalarida ko'rinadigan asl vektor logotip (`src/components/logo.tsx`, yorug'/qorong'i mavzuga avtomatik moslashadi), `png/` — chop etish uchun rasmlar, `web/` — favicon/PWA belgilari (allaqachon ulangan). `fizzo-landing/` papkasidagi statik sahifa esa `/` manzilidagi marketing (landing) sahifasi sifatida `src/components/landing/` ichida implement qilingan — kirmagan foydalanuvchiga shu sahifa, kirgan foydalanuvchiga esa "Bugun" sahifasi ko'rsatiladi.
 
-## 4. Trafik tahlili (Google Analytics)
+## 4. Google orqali kirish (ixtiyoriy)
+
+Telegram'i yo'q yoki undan foydalanmoqchi bo'lmagan veb foydalanuvchilar uchun `/kirish`da qo'shimcha "Google bilan kirish" tugmasi mavjud (`GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` bo'sh bo'lsa, tugma umuman ko'rsatilmaydi).
+
+1. [Google Cloud Console](https://console.cloud.google.com/apis/credentials)da yangi loyiha yarating (yoki mavjudini tanlang).
+2. **OAuth consent screen**ni sozlang: User type — External, ilova nomi "Fizzo", qo'llab-quvvatlash emaili — o'zingiznikini kiriting.
+3. **Credentials → Create Credentials → OAuth client ID**: Application type — **Web application**.
+4. **Authorized redirect URIs**ga ikkalasini ham qo'shing:
+   - `http://localhost:3000/api/auth/google/callback` (lokal rivojlantirish uchun)
+   - `https://fizzo.app/api/auth/google/callback` (production uchun)
+5. Yaratilgan **Client ID** va **Client secret**ni `.env`ga yozing:
+
+   ```bash
+   GOOGLE_CLIENT_ID="...apps.googleusercontent.com"
+   GOOGLE_CLIENT_SECRET="..."
+   ```
+
+6. Docker orqali deploy qilganda qayta ishga tushirish (restart) yetarli — `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` runtime'da o'qiladi, `NEXT_PUBLIC_*` prefiksli emas, shuning uchun qayta build shart emas (pastdagi "Muhim" eslatmaga solishtiring).
+
+Google orqali kirgan foydalanuvchilar alohida akkaunt sifatida saqlanadi (`telegramId`siz, `googleId`/`email` orqali) — hozircha Telegram va Google akkauntlarini birlashtirish (bir xil odam ikkalasidan foydalansa) qo'llab-quvvatlanmaydi.
+
+## 5. Trafik tahlili (Google Analytics)
 
 Qaysi manbadan (referrer, mamlakat) va qancha foydalanuvchi kelayotganini ko'rish uchun GA4 ulangan (`@next/third-parties/google`, `src/app/layout.tsx`).
 
@@ -54,11 +75,11 @@ Qaysi manbadan (referrer, mamlakat) va qancha foydalanuvchi kelayotganini ko'ris
 2. Olingan o'lchov ID'ni (`G-` bilan boshlanadi) `.env`dagi `NEXT_PUBLIC_GA_MEASUREMENT_ID`ga yozing.
 3. Bo'sh qoldirilsa, GA skripti umuman yuklanmaydi (lokal/dev muhitda shunday qoldiring).
 
-> **Muhim:** `NEXT_PUBLIC_*` o'zgaruvchilar Next.js tomonidan **build vaqtida** JS bundle'ga yoziladi, runtime'da emas. Docker orqali deploy qilganda bu qiymat `docker compose --profile prod build app` bosqichida `.env`dan build-arg sifatida o'qiladi (`docker-compose.yml`dagi `app.build.args`) — shuning uchun uni o'zgartirgandan keyin konteynerni qayta ishga tushirish yetarli emas, **qayta build qilish** kerak (4.4-bo'limga qarang).
+> **Muhim:** `NEXT_PUBLIC_*` o'zgaruvchilar Next.js tomonidan **build vaqtida** JS bundle'ga yoziladi, runtime'da emas. Docker orqali deploy qilganda bu qiymat `docker compose --profile prod build app` bosqichida `.env`dan build-arg sifatida o'qiladi (`docker-compose.yml`dagi `app.build.args`) — shuning uchun uni o'zgartirgandan keyin konteynerni qayta ishga tushirish yetarli emas, **qayta build qilish** kerak (6.4-bo'limga qarang).
 
-## 5. VPS'ga joylashtirish (Docker + Nginx)
+## 6. VPS'ga joylashtirish (Docker + Nginx)
 
-### 5.1. Serverni tayyorlash
+### 6.1. Serverni tayyorlash
 
 ```bash
 git clone <repo-url> fizzo && cd fizzo
@@ -69,12 +90,13 @@ cp .env.example .env
 #   SESSION_SECRET — kamida 32 ta tasodifiy belgi: openssl rand -base64 48
 #   ADMIN_TELEGRAM_IDS — vergul bilan ajratilgan Telegram ID'lar
 #   DEV_LOGIN="false"
-#   NEXT_PUBLIC_GA_MEASUREMENT_ID — ixtiyoriy, 4-bo'limga qarang
+#   GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET — ixtiyoriy, 4-bo'limga qarang
+#   NEXT_PUBLIC_GA_MEASUREMENT_ID — ixtiyoriy, 5-bo'limga qarang
 ```
 
-`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (4-bo'limdagi eslatmaga qarang).
+`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (5-bo'limdagi eslatmaga qarang) — `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` `NEXT_PUBLIC_` prefiksiga ega emas, shuning uchun build-arg sifatida kerak emas.
 
-### 5.2. Build va ishga tushirish
+### 6.2. Build va ishga tushirish
 
 ```bash
 docker compose --profile prod build app
@@ -89,7 +111,7 @@ docker compose --profile prod run --rm migrate npm run db:seed
 
 Ilova konteyner ichida `3000`-portda ishlaydi va host'da ham shu portga bog'langan. Agar serverda `3000` band bo'lsa (masalan boshqa loyiha shu portni ishlatayotgan bo'lsa), `.env`da `APP_PORT="..."` qo'shib boshqa portga ko'chirish mumkin — Nginx/Caddy konfiguratsiyasida ham o'sha portni ko'rsating.
 
-### 5.3. Nginx (HTTPS bilan)
+### 6.3. Nginx (HTTPS bilan)
 
 Telegram Mini App faqat HTTPS orqali ochiladi, shuning uchun Nginx + Let's Encrypt kerak.
 
@@ -128,7 +150,7 @@ sudo certbot --nginx -d fizzo.app
 
 Keyin BotFather'da `/setdomain` va Mini App manzilini `https://fizzo.app` qilib belgilang.
 
-### 5.4. Yangilash
+### 6.4. Yangilash
 
 ```bash
 git pull
@@ -137,7 +159,7 @@ docker compose --profile prod run --rm migrate npx prisma migrate deploy
 docker compose --profile prod up -d app
 ```
 
-## 6. Zaxira nusxa (backup)
+## 7. Zaxira nusxa (backup)
 
 Postgres ma'lumotlar bazasini har kuni zaxiralash uchun serverda cron sozlang:
 
@@ -164,7 +186,7 @@ Tiklash uchun:
 gunzip -c /var/backups/fizzo/fizzo-2026-03-05.sql.gz | docker compose exec -T db psql -U fizzo fizzo
 ```
 
-## 7. Loyiha tuzilishi (qisqacha)
+## 8. Loyiha tuzilishi (qisqacha)
 
 - `src/app/(app)/` — autentifikatsiya talab qiladigan sahifalar (Bugun, Mavzular, Mashq, Mock test, Natijalar).
 - `src/app/admin/` — kontent boshqaruv paneli (`ADMIN_TELEGRAM_IDS` talab qiladi).
@@ -173,6 +195,6 @@ gunzip -c /var/backups/fizzo/fizzo-2026-03-05.sql.gz | docker compose exec -T db
 - `src/lib/` — autentifikatsiya, javob tekshirish, seriya (streak), mashq tanlash va mock test mantiqi.
 - `prisma/schema.prisma`, `prisma/seed.ts` — ma'lumotlar bazasi sxemasi va boshlang'ich kontent.
 
-## 8. Qamrovdan tashqarida (MVP)
+## 9. Qamrovdan tashqarida (MVP)
 
 To'lov/Premium, reyting jadvali/XP, video darslar, boshqa fanlar, rus tilidagi interfeys, ishlash vaqtida AI tomonidan yaratiladigan tushuntirishlar.

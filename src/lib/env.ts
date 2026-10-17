@@ -36,4 +36,10 @@ export const env = {
   get gaMeasurementId(): string | null {
     return process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || null;
   },
+  get googleClientId(): string | null {
+    return process.env.GOOGLE_CLIENT_ID || null;
+  },
+  get googleClientSecret(): string | null {
+    return process.env.GOOGLE_CLIENT_SECRET || null;
+  },
 };

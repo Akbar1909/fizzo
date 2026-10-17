@@ -9,7 +9,9 @@ datasource db {
 
 model User {
   id            String        @id @default(cuid())
-  telegramId    BigInt        @unique
+  telegramId    BigInt?       @unique
+  googleId      String?       @unique
+  email         String?       @unique
   firstName     String
   lastName      String?
   username      String?

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { isAdminTelegramId } from "@/lib/admin";
 import { dbDateToTashkentString } from "@/lib/db-date";
 import type { TelegramAuthUser } from "@/lib/telegram-auth";
+import type { GoogleAuthUser } from "@/lib/google-auth";
 import type { User } from "@/generated/prisma/client";
 
 export interface PublicUser {
@@ -48,6 +49,25 @@ export async function upsertTelegramUser(data: TelegramAuthUser): Promise<User> 
       firstName: data.firstName,
       lastName: data.lastName,
       username: data.username,
+      photoUrl: data.photoUrl,
+    },
+  });
+}
+
+export async function upsertGoogleUser(data: GoogleAuthUser): Promise<User> {
+  return db.user.upsert({
+    where: { googleId: data.googleId },
+    create: {
+      googleId: data.googleId,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      photoUrl: data.photoUrl,
+    },
+    update: {
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
       photoUrl: data.photoUrl,
     },
   });
