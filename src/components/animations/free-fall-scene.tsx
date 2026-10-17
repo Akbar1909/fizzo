@@ -24,6 +24,10 @@ const ACCEL_OFFSET_X = 28;
 // integrated each frame), just time-dilated, the same way a slow-motion
 // camera doesn't change what actually happened.
 const TIME_SCALE = 0.3;
+// How often the numeric readout refreshes during playback. Much slower than
+// the 60fps visual loop on purpose - a number changing every frame reads as
+// a blur, not a value you can follow.
+const TEXT_UPDATE_INTERVAL_MS = 180;
 
 function heightToY(height: number): number {
   return GROUND_Y - height * PX_PER_METER;
@@ -68,11 +72,16 @@ export function FreeFallScene() {
   const dragHeightRef = useRef(DEFAULT_H);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number | null>(null);
+  const lastTextUpdateRef = useRef(0);
 
   const fallTime = Math.sqrt((2 * h0) / GRAVITY);
 
   const applyState = useCallback(
-    (t: number) => {
+    // The ball/arrows update every frame for smooth 60fps motion, but the
+    // numeric readout is throttled: refreshing text 60x/second makes the
+    // last digit an unreadable blur even though the fall itself is slow.
+    // User-triggered changes (scrub, reset, play) force an immediate update.
+    (t: number, forceTextUpdate = false) => {
       const clampedT = Math.min(t, fallTime);
       const v = GRAVITY * clampedT;
       const height = Math.max(0, h0 - 0.5 * GRAVITY * clampedT * clampedT);
@@ -101,16 +110,20 @@ export function FreeFallScene() {
       accelLineRef.current?.setAttribute("y2", String(aEndY));
       accelLabelRef.current?.setAttribute("y", String((vectorStartY + aEndY) / 2));
 
-      if (timeTextRef.current) timeTextRef.current.textContent = `${fmt(clampedT)} s`;
-      if (velocityTextRef.current) velocityTextRef.current.textContent = `${fmt(v)} m/s`;
-      if (heightTextRef.current) heightTextRef.current.textContent = `${fmt(height)} m`;
+      const now = performance.now();
+      if (forceTextUpdate || now - lastTextUpdateRef.current >= TEXT_UPDATE_INTERVAL_MS) {
+        lastTextUpdateRef.current = now;
+        if (timeTextRef.current) timeTextRef.current.textContent = `${fmt(clampedT)} s`;
+        if (velocityTextRef.current) velocityTextRef.current.textContent = `${fmt(v)} m/s`;
+        if (heightTextRef.current) heightTextRef.current.textContent = `${fmt(height)} m`;
+      }
       if (sliderRef.current) sliderRef.current.value = String(clampedT);
     },
     [h0, fallTime],
   );
 
   useEffect(() => {
-    if (!isPlaying) applyState(elapsedRef.current);
+    if (!isPlaying) applyState(elapsedRef.current, true);
   }, [h0, isPlaying, applyState]);
 
   useEffect(() => {
@@ -155,7 +168,7 @@ export function FreeFallScene() {
     elapsedRef.current = 0;
     setLanded(false);
     setCanSetInitialHeight(true);
-    applyState(0);
+    applyState(0, true);
   };
 
   const handleScrub = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,7 +177,7 @@ export function FreeFallScene() {
     elapsedRef.current = t;
     setLanded(t >= fallTime);
     setCanSetInitialHeight(false);
-    applyState(t);
+    applyState(t, true);
   };
 
   const canDrag = canSetInitialHeight && !isPlaying;
