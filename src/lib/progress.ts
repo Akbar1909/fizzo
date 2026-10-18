@@ -20,6 +20,29 @@ export interface SectionProgress {
   total: number;
 }
 
+export interface SectionOverview {
+  code: string;
+  name: string;
+  isOpen: boolean;
+  totalQuestions: number;
+}
+
+/** Public, no-login section summary (counts only) — for the landing page. */
+export async function getSectionsOverview(): Promise<SectionOverview[]> {
+  const sections = await db.section.findMany({
+    orderBy: { order: "asc" },
+    include: {
+      topics: { include: { questions: { where: { isPublished: true }, select: { id: true } } } },
+    },
+  });
+  return sections.map((section) => ({
+    code: section.code,
+    name: section.name,
+    isOpen: section.isOpen,
+    totalQuestions: section.topics.reduce((sum, t) => sum + t.questions.length, 0),
+  }));
+}
+
 export async function getSectionsWithProgress(userId: string): Promise<SectionProgress[]> {
   const sections = await db.section.findMany({
     orderBy: { order: "asc" },

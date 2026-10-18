@@ -26,9 +26,28 @@ const stixTwoText = STIX_Two_Text({
   variable: "--font-math",
 });
 
+const TITLE = "fizzo — fizikadan Milliy sertifikatga tayyorgarlik";
+const DESCRIPTION =
+  "Fizikadan Milliy sertifikat va DTM'ga bepul tayyorgarlik: rasmiy 5 bo'lim bo'yicha mashqlar, animatsiyali yechimlar va imtihon formatidagi mock testlar. Telegram ichida, o'zbek tilida.";
+
 export const metadata: Metadata = {
-  title: "fizzo — fizikadan Milliy sertifikatga tayyorgarlik",
-  description: "Fizikani har kuni oz-ozdan: Milliy sertifikat va DTM uchun animatsiyali yechimlar bilan mashq qiling.",
+  metadataBase: new URL("https://fizzo.app"),
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "uz_UZ",
+    url: "https://fizzo.app",
+    siteName: "fizzo",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
@@ -49,6 +68,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Script
           src="https://telegram.org/js/telegram-web-app.js"
           strategy="beforeInteractive"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "EducationalOrganization",
+              name: "fizzo",
+              url: "https://fizzo.app",
+              description: DESCRIPTION,
+              inLanguage: "uz",
+              areaServed: "UZ",
+            }),
+          }}
         />
       </head>
       <body>

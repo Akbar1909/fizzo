@@ -1,63 +1,47 @@
 import Link from "next/link";
 import { env } from "@/lib/env";
 import { getApprovedReviews } from "@/lib/reviews";
+import { getSectionsOverview } from "@/lib/progress";
 import styles from "./landing.module.css";
 
-const SECTIONS = [
+const OPEN_BADGE = { badge: "Hozir ochiq", badgeBg: "#D7EEDC", badgeColor: "#15803D" };
+const SOON_BADGE = { badge: "Tez orada", badgeBg: "#F1ECE2", badgeColor: "#5B6470" };
+
+const SECTION_META = [
   {
     n: "1",
     iconBg: "#FBE3D2",
     iconColor: "#C2410C",
     title: "Mexanika",
-    count: "13 savol",
     desc: "Kinematika, dinamika, statika, suyuqlik va gazlar mexanikasi, saqlanish qonunlari, tebranishlar va to'lqinlar",
-    badge: "Hozir ochiq",
-    badgeBg: "#D7EEDC",
-    badgeColor: "#15803D",
   },
   {
     n: "2",
-    iconBg: "#DCE6FB",
-    iconColor: "#1D4ED8",
-    title: "Elektr va magnitizm",
-    count: "12 savol",
-    desc: "Elektrostatika, o'zgarmas tok, turli muhitlarda tok, magnitizm, elektromagnit tebranishlar",
-    badge: "Tez orada",
-    badgeBg: "#F1ECE2",
-    badgeColor: "#5B6470",
-  },
-  {
-    n: "3",
     iconBg: "#D7EEDC",
     iconColor: "#15803D",
     title: "Molekulyar fizika va termodinamika",
-    count: "7 savol",
     desc: "Molekulyar-kinetik nazariya, gaz qonunlari, termodinamika qonunlari, suyuqlik va qattiq jismlar",
-    badge: "Tez orada",
-    badgeBg: "#F1ECE2",
-    badgeColor: "#5B6470",
+  },
+  {
+    n: "3",
+    iconBg: "#DCE6FB",
+    iconColor: "#1D4ED8",
+    title: "Elektr va magnitizm",
+    desc: "Elektrostatika, o'zgarmas tok, turli muhitlarda tok, magnitizm, elektromagnit tebranishlar",
   },
   {
     n: "4",
     iconBg: "#F3E8C9",
     iconColor: "#8A5A00",
     title: "Optika va nisbiylik nazariyasi",
-    count: "5 savol",
     desc: "Geometrik optika, linzalar, to'lqin optikasi, maxsus nisbiylik nazariyasi asoslari",
-    badge: "Tez orada",
-    badgeBg: "#F1ECE2",
-    badgeColor: "#5B6470",
   },
   {
     n: "5",
     iconBg: "#E9E3F5",
     iconColor: "#5B3FA8",
     title: "Kvant, atom va yadro fizikasi",
-    count: "4 savol",
     desc: "Fotoeffekt, fotonlar, Bor modeli, radioaktiv yemirilish, yadro reaksiyalari",
-    badge: "Tez orada",
-    badgeBg: "#F1ECE2",
-    badgeColor: "#5B6470",
   },
 ];
 
@@ -77,7 +61,7 @@ function buildFaq(botUsername: string) {
     },
     {
       q: "Qaysi bo'limlar hozir ochiq?",
-      a: "Hozir mexanika ochiq. Qolgan bo'limlar bosqichma-bosqich qo'shiladi.",
+      a: "Barcha 5 bo'lim ochiq: Mexanika, Molekulyar fizika va termodinamika, Elektr va magnitizm, Optika va nisbiylik nazariyasi, Kvant fizikasi.",
     },
     {
       q: "Savollar to'g'riligiga ishonsa bo'ladimi?",
@@ -120,7 +104,13 @@ function PlusIcon() {
 
 export async function LandingPage() {
   const faq = buildFaq(env.telegramBotUsername);
-  const reviews = await getApprovedReviews();
+  const [reviews, overview] = await Promise.all([getApprovedReviews(), getSectionsOverview()]);
+  const overviewByCode = new Map(overview.map((s) => [s.code, s]));
+  const sections = SECTION_META.map((meta) => {
+    const live = overviewByCode.get(meta.n);
+    const badge = live?.isOpen ? OPEN_BADGE : SOON_BADGE;
+    return { ...meta, ...badge, count: `${live?.totalQuestions ?? 0} savol` };
+  });
 
   return (
     <div className={styles.root} style={{ fontFamily: "var(--font-ui)", color: "#1B2430", background: "#F6F1E7", minHeight: "100vh" }}>
@@ -326,7 +316,7 @@ export async function LandingPage() {
         </h2>
         <p className={styles.lead}>Mavzular va savollar soni rasmiy test varianti tafsilotiga mos keladi.</p>
         <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
-          {SECTIONS.map((s) => (
+          {sections.map((s) => (
             <div key={s.n} className={styles.card} style={{ padding: 22, display: "flex", gap: 16, alignItems: "flex-start" }}>
               <span
                 style={{
