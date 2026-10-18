@@ -35,6 +35,8 @@ export function MockNavigator({
               aria-label={`${i + 1}-savol${isAnswered ? ", javob berilgan" : ""}${isFlagged ? ", belgilangan" : ""}`}
               style={{
                 aspectRatio: "1",
+                minWidth: 0,
+                padding: 0,
                 borderRadius: 8,
                 fontSize: 12,
                 fontWeight: 700,
