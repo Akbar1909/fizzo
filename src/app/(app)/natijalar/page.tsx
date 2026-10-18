@@ -109,10 +109,13 @@ export default async function NatijalarPage() {
                 key={entry.id}
                 href={`/mock/${entry.id}/natija`}
                 className="card"
-                style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
               >
-                <span style={{ fontSize: 14, color: "var(--muted)" }}>{formatDate(entry.startedAt)}</span>
-                <strong>
+                <span style={{ minWidth: 0 }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, display: "block" }}>{entry.label}</span>
+                  <span style={{ fontSize: 13, color: "var(--muted)" }}>{formatDate(entry.startedAt)}</span>
+                </span>
+                <strong style={{ flexShrink: 0 }}>
                   {entry.score}/{entry.total}
                 </strong>
               </Link>

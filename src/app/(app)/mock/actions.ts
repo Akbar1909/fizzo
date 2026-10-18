@@ -5,18 +5,29 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { rateLimit } from "@/lib/rate-limit";
 import {
-  createMockSession,
+  createFullMockSession,
+  createQuickMockSession,
+  createSectionMockSession,
   finishMockSession,
   getActiveMockSession,
   saveMockAnswer,
   toggleMockFlag,
 } from "@/lib/mock";
 
-export async function startMockAction(): Promise<void> {
+export async function startMockAction(formData: FormData): Promise<void> {
   const user = await requireUser();
   const existing = await getActiveMockSession(user.id);
   if (!existing) {
-    await createMockSession(user.id);
+    const mode = formData.get("mode")?.toString();
+    if (mode === "quick") {
+      await createQuickMockSession(user.id);
+    } else if (mode === "section") {
+      const sectionCode = formData.get("sectionCode")?.toString();
+      if (!sectionCode) throw new Error("sectionCode is required for a section mock");
+      await createSectionMockSession(user.id, sectionCode);
+    } else {
+      await createFullMockSession(user.id);
+    }
   }
   redirect("/mock");
 }

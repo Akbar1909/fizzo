@@ -26,7 +26,7 @@ export default async function MockResultPage({ params }: PageProps<"/mock/[id]/n
           <Logo height={22} />
         </span>
         <h1 className="display" style={{ fontSize: 22 }}>
-          Mock test natijasi
+          {review.label} natijasi
         </h1>
       </header>
 

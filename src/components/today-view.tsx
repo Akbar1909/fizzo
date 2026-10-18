@@ -147,8 +147,8 @@ export async function TodayView({ user }: { user: PublicUser }) {
         </section>
 
         <Link href="/mock" className="card-dashed stack-sm" style={{ textAlign: "center" }}>
-          <strong style={{ fontFamily: "var(--font-display)" }}>To&apos;liq mock testni sinab ko&apos;ring</strong>
-          <span style={{ color: "var(--muted)", fontSize: 14 }}>45 ta savol · 150 daqiqa</span>
+          <strong style={{ fontFamily: "var(--font-display)" }}>Mock test topshiring</strong>
+          <span style={{ color: "var(--muted)", fontSize: 14 }}>To&apos;liq, tezkor yoki bo&apos;lim bo&apos;yicha</span>
         </Link>
       </div>
 

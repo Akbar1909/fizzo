@@ -9,10 +9,10 @@ function json(value: unknown): Prisma.InputJsonValue {
   return value as Prisma.InputJsonValue;
 }
 
-const MOCK_DURATION_MS = 150 * 60 * 1000;
 export const MOCK_TOTAL_QUESTIONS = 45;
+export const QUICK_MOCK_TOTAL_QUESTIONS = 20;
 
-const SECTION_COMPOSITION: { sectionCode: string; y1: number; o: number }[] = [
+export const SECTION_COMPOSITION: { sectionCode: string; y1: number; o: number }[] = [
   { sectionCode: "1", y1: 10, o: 3 },
   { sectionCode: "2", y1: 5, o: 2 },
   { sectionCode: "3", y1: 10, o: 2 },
@@ -21,6 +21,14 @@ const SECTION_COMPOSITION: { sectionCode: string; y1: number; o: number }[] = [
 ];
 const LOGIC_Y1_COUNT = 1;
 const MATCHING_Y2_COUNT = 3;
+
+/** Minutes per question in the official mock (150 min / 45 savol), reused to size the shorter modes. */
+const MINUTES_PER_QUESTION = 150 / 45;
+
+function durationMsFor(totalQuestions: number): number {
+  const minutes = Math.round((totalQuestions * MINUTES_PER_QUESTION) / 5) * 5;
+  return minutes * 60 * 1000;
+}
 
 function shuffle<T>(items: T[]): T[] {
   const result = [...items];
@@ -38,7 +46,15 @@ interface Picked {
   shortBank: boolean;
 }
 
-async function pickMockQuestions(): Promise<Picked> {
+interface DrawRow {
+  /** Omit to draw from every open section. */
+  sectionCode?: string;
+  y1: number;
+  y2: number;
+  o: number;
+}
+
+async function pickQuestions(rows: DrawRow[]): Promise<Picked> {
   const allPublished = await db.question.findMany({
     where: { isPublished: true },
     include: { topic: { include: { section: true } } },
@@ -46,8 +62,8 @@ async function pickMockQuestions(): Promise<Picked> {
 
   const used = new Set<string>();
   const y1: Question[] = [];
-  const o: Question[] = [];
   const y2: Question[] = [];
+  const o: Question[] = [];
   let shortBank = false;
 
   function takeFrom(pool: Question[], count: number): Question[] {
@@ -58,16 +74,14 @@ async function pickMockQuestions(): Promise<Picked> {
     return taken;
   }
 
-  for (const comp of SECTION_COMPOSITION) {
-    const sectionQuestions = allPublished.filter((q) => q.topic.section.code === comp.sectionCode);
-    y1.push(...takeFrom(sectionQuestions.filter((q) => q.type === "Y1"), comp.y1));
-    o.push(...takeFrom(sectionQuestions.filter((q) => q.type === "O"), comp.o));
+  for (const row of rows) {
+    const pool = row.sectionCode ? allPublished.filter((q) => q.topic.section.code === row.sectionCode) : allPublished;
+    y1.push(...takeFrom(pool.filter((q) => q.type === "Y1"), row.y1));
+    y2.push(...takeFrom(pool.filter((q) => q.type === "Y2"), row.y2));
+    o.push(...takeFrom(pool.filter((q) => q.type === "O"), row.o));
   }
 
-  y1.push(...takeFrom(allPublished.filter((q) => q.type === "Y1"), LOGIC_Y1_COUNT));
-  y2.push(...takeFrom(allPublished.filter((q) => q.type === "Y2"), MATCHING_Y2_COUNT));
-
-  const targetTotal = SECTION_COMPOSITION.reduce((sum, c) => sum + c.y1 + c.o, 0) + LOGIC_Y1_COUNT + MATCHING_Y2_COUNT;
+  const targetTotal = rows.reduce((sum, r) => sum + r.y1 + r.y2 + r.o, 0);
   const currentTotal = y1.length + y2.length + o.length;
   if (currentTotal < targetTotal) {
     const fillers = takeFrom(allPublished, targetTotal - currentTotal);
@@ -81,12 +95,18 @@ async function pickMockQuestions(): Promise<Picked> {
   return { y1, y2, o, shortBank };
 }
 
-export async function createMockSession(userId: string): Promise<MockSession> {
-  const { y1, y2, o, shortBank } = await pickMockQuestions();
+async function createSessionFromRows(
+  userId: string,
+  rows: DrawRow[],
+  label: string,
+  durationMsOverride?: number,
+): Promise<MockSession> {
+  const { y1, y2, o, shortBank } = await pickQuestions(rows);
   const orderedIds = [...y1, ...y2, ...o].map((q) => q.id);
+  const totalQuestions = rows.reduce((sum, r) => sum + r.y1 + r.y2 + r.o, 0);
 
   const startedAt = new Date();
-  const endsAt = new Date(startedAt.getTime() + MOCK_DURATION_MS);
+  const endsAt = new Date(startedAt.getTime() + (durationMsOverride ?? durationMsFor(totalQuestions)));
 
   return db.mockSession.create({
     data: {
@@ -94,9 +114,41 @@ export async function createMockSession(userId: string): Promise<MockSession> {
       questionIds: orderedIds,
       startedAt,
       endsAt,
-      answers: json({ shortBank }),
+      answers: json({ shortBank, label }),
     },
   });
+}
+
+/** The official exam format: 45 savol, 150 daqiqa, rasmiy bo'lim taqsimoti. */
+export async function createFullMockSession(userId: string): Promise<MockSession> {
+  const rows: DrawRow[] = [
+    ...SECTION_COMPOSITION.map((c) => ({ sectionCode: c.sectionCode, y1: c.y1, y2: 0, o: c.o })),
+    { y1: LOGIC_Y1_COUNT, y2: MATCHING_Y2_COUNT, o: 0 },
+  ];
+  return createSessionFromRows(userId, rows, "To'liq mock");
+}
+
+const QUICK_MOCK_DURATION_MS = 30 * 60 * 1000;
+
+/** A short, loosely-mixed practice mock drawn from every open section — faster-paced than the official exam. */
+export async function createQuickMockSession(userId: string): Promise<MockSession> {
+  const rows: DrawRow[] = [{ y1: 15, y2: 2, o: 3 }];
+  return createSessionFromRows(userId, rows, "Tezkor aralash mock", QUICK_MOCK_DURATION_MS);
+}
+
+/** A mock scoped to a single section, using that section's own official quota. */
+export async function createSectionMockSession(userId: string, sectionCode: string): Promise<MockSession> {
+  const section = await db.section.findUniqueOrThrow({ where: { code: sectionCode } });
+  const comp = SECTION_COMPOSITION.find((c) => c.sectionCode === sectionCode);
+  if (!comp) throw new Error(`No mock composition defined for section ${sectionCode}`);
+
+  const rows: DrawRow[] = [{ sectionCode, y1: comp.y1, y2: 1, o: comp.o }];
+  return createSessionFromRows(userId, rows, `${section.code}-bo'lim: ${section.name}`);
+}
+
+export function getMockLabel(session: MockSession): string {
+  const answers = session.answers as Record<string, unknown>;
+  return typeof answers.label === "string" ? answers.label : "To'liq mock";
 }
 
 export async function getActiveMockSession(userId: string): Promise<MockSession | null> {
@@ -212,6 +264,7 @@ export interface MockTopicStat extends MockSectionStat {
 
 export interface MockReview {
   sessionId: string;
+  label: string;
   score: number;
   total: number;
   startedAt: Date;
@@ -275,6 +328,7 @@ export async function getMockReview(sessionId: string, userId: string): Promise<
 
   return {
     sessionId: session.id,
+    label: getMockLabel(session),
     score,
     total: session.questionIds.length,
     startedAt: session.startedAt,

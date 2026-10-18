@@ -1,5 +1,6 @@
 import "server-only";
 import { db } from "@/lib/db";
+import { getMockLabel } from "@/lib/mock";
 
 export interface TopicAccuracy {
   id: string;
@@ -68,6 +69,7 @@ export async function getResultsSummary(userId: string): Promise<ResultsSummary>
 
 export interface MockHistoryEntry {
   id: string;
+  label: string;
   startedAt: Date;
   finishedAt: Date | null;
   score: number;
@@ -84,6 +86,7 @@ export async function getMockHistory(userId: string): Promise<MockHistoryEntry[]
 
   return sessions.map((session) => ({
     id: session.id,
+    label: getMockLabel(session),
     startedAt: session.startedAt,
     finishedAt: session.finishedAt,
     score: session.attempts.filter((a) => a.isCorrect).length,
