@@ -48,6 +48,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
   },
+  verification: env.googleSiteVerification ? { google: env.googleSiteVerification } : undefined,
 };
 
 export const viewport: Viewport = {

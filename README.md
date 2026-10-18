@@ -95,7 +95,7 @@ cp .env.example .env
 #   NEXT_PUBLIC_GA_MEASUREMENT_ID — ixtiyoriy, 5-bo'limga qarang
 ```
 
-`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`, `ADMIN_DASHBOARD_USERNAME`, `ADMIN_DASHBOARD_PASSWORD`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (5-bo'limdagi eslatmaga qarang) — `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` `NEXT_PUBLIC_` prefiksiga ega emas, shuning uchun build-arg sifatida kerak emas.
+`docker-compose.yml`dagi `app` xizmati quyidagi muhit o'zgaruvchilarini `.env`dan oladi (`docker compose` ularni avtomatik o'qiydi): `TELEGRAM_BOT_TOKEN`, `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`, `SESSION_SECRET`, `ADMIN_TELEGRAM_IDS`, `ADMIN_DASHBOARD_USERNAME`, `ADMIN_DASHBOARD_PASSWORD`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_SITE_VERIFICATION`. `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME` va `NEXT_PUBLIC_GA_MEASUREMENT_ID` qo'shimcha ravishda build-arg sifatida ham uzatiladi (5-bo'limdagi eslatmaga qarang) — `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` `NEXT_PUBLIC_` prefiksiga ega emas, shuning uchun build-arg sifatida kerak emas.
 
 ### 6.2.1. Statistika paneli (`/panel`, `head.fizzo.app`)
 

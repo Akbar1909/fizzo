@@ -48,4 +48,7 @@ export const env = {
   get dashboardPassword(): string {
     return required("ADMIN_DASHBOARD_PASSWORD");
   },
+  get googleSiteVerification(): string | null {
+    return process.env.GOOGLE_SITE_VERIFICATION || null;
+  },
 };
