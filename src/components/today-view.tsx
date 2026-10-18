@@ -10,6 +10,7 @@ import { StreakCalendarWidget } from "@/components/today/streak-calendar-widget"
 import { LeaderboardWidget } from "@/components/today/leaderboard-widget";
 import { ActivityFeedWidget } from "@/components/today/activity-feed-widget";
 import { StatTiles } from "@/components/today/stat-tiles";
+import { WeakTopicsWidget } from "@/components/today/weak-topics-widget";
 import type { PublicUser } from "@/lib/users";
 
 const DAILY_GOAL = 10;
@@ -102,32 +103,47 @@ export async function TodayView({ user }: { user: PublicUser }) {
 
         <StatTiles streak={streakToShow} totalXp={totalXp} solvedCount={solvedCount} />
 
+        <WeakTopicsWidget userId={user.id} />
+
         <section className="stack-sm" aria-label="Bo'limlar">
-          {sections.map((section) => (
-            <div key={section.id} className="card stack-sm">
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <h3 style={{ fontSize: 15 }}>
-                  {section.code}. {section.name}
-                </h3>
-                {section.isOpen ? (
-                  <span style={{ fontSize: 13, color: "var(--muted)" }}>
-                    {section.solved}/{section.total}
-                  </span>
-                ) : (
-                  <span className="badge">Tez orada</span>
-                )}
+          {sections.map((section) => {
+            const nextTopic = section.topics.find((t) => t.solved < t.total) ?? section.topics[0];
+            const canContinue = section.isOpen && nextTopic !== undefined;
+            const content = (
+              <>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <h3 style={{ fontSize: 15 }}>
+                    {section.code}. {section.name}
+                  </h3>
+                  {section.isOpen ? (
+                    <span style={{ fontSize: 13, color: "var(--muted)" }}>
+                      {section.solved}/{section.total}
+                    </span>
+                  ) : (
+                    <span className="badge">Tez orada</span>
+                  )}
+                </div>
+                <div className="bar">
+                  <div
+                    className="bar-fill"
+                    style={{
+                      width: `${section.total > 0 ? (section.solved / section.total) * 100 : 0}%`,
+                      background: section.isOpen ? "var(--accent)" : "var(--quiet)",
+                    }}
+                  />
+                </div>
+              </>
+            );
+            return canContinue ? (
+              <Link key={section.id} href={`/mashq/${encodeURIComponent(nextTopic.code)}`} className="card stack-sm">
+                {content}
+              </Link>
+            ) : (
+              <div key={section.id} className="card stack-sm">
+                {content}
               </div>
-              <div className="bar">
-                <div
-                  className="bar-fill"
-                  style={{
-                    width: `${section.total > 0 ? (section.solved / section.total) * 100 : 0}%`,
-                    background: section.isOpen ? "var(--accent)" : "var(--quiet)",
-                  }}
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
 
         <Link href="/mock" className="card-dashed stack-sm" style={{ textAlign: "center" }}>
