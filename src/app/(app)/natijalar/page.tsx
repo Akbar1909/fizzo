@@ -4,6 +4,7 @@ import { getMockHistory, getResultsSummary } from "@/lib/results";
 import { getUserPendingOrRecentReview } from "@/lib/reviews";
 import { Logo } from "@/components/logo";
 import { ReviewForm } from "@/components/natijalar/review-form";
+import { SectionBadges } from "@/components/natijalar/section-badges";
 import { updateShareActivityAction } from "./actions";
 
 function formatDate(date: Date) {
@@ -43,6 +44,8 @@ export default async function NatijalarPage() {
           <p style={{ fontSize: 13, color: "var(--muted)" }}>To&apos;g&apos;rilik</p>
         </div>
       </section>
+
+      <SectionBadges userId={user.id} />
 
       {summary.weakTopics.length > 0 && (
         <section className="stack-sm">
