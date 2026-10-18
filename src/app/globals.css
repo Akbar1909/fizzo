@@ -247,6 +247,11 @@ button {
     box-shadow 0.1s ease;
 }
 
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 0 var(--ink);
+}
+
 .btn:active {
   transform: translateY(3px);
   box-shadow: 0 0 0 0 var(--ink);
@@ -266,6 +271,10 @@ button {
   box-shadow: 0 3px 0 0 color-mix(in srgb, var(--accent) 60%, black);
 }
 
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 4px 0 0 color-mix(in srgb, var(--accent) 60%, black);
+}
+
 .btn-primary:active {
   box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, black);
 }
@@ -275,6 +284,12 @@ button {
   border-color: transparent;
   box-shadow: none;
   color: var(--muted);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  transform: none;
+  background: var(--line-soft);
+  box-shadow: none;
 }
 
 .btn-ghost:active {
@@ -296,6 +311,11 @@ button {
   border: none;
   background: transparent;
   color: var(--ink);
+  transition: background-color 0.15s ease;
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: var(--line-soft);
 }
 
 /* Cards */
@@ -515,6 +535,10 @@ select.input {
   font-size: 16px;
   font-family: var(--font-math);
   transition: border-color 0.15s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: var(--ink);
 }
 
 .option-btn[aria-pressed="true"] {
