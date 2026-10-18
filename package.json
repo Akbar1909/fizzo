@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "tsc --noEmit && eslint .",
     "test": "node --import tsx --test \"src/**/*.test.ts\"",
-    "db:seed": "node --import tsx prisma/seed.ts"
+    "db:seed": "node --import tsx prisma/seed.ts",
+    "db:generate-variants": "node --import tsx prisma/generate-mock-variants.ts"
   },
   "dependencies": {
     "@next/third-parties": "16.4.2",

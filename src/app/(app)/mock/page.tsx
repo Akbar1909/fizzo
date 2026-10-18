@@ -4,6 +4,7 @@ import {
   getActiveMockSession,
   getOrderedPublicQuestions,
   wasFilledFromOtherSections,
+  listMockVariants,
   SECTION_COMPOSITION,
   MOCK_TOTAL_QUESTIONS,
   QUICK_MOCK_TOTAL_QUESTIONS,
@@ -32,7 +33,10 @@ export default async function MockPage() {
   }
 
   if (!session) {
-    const sections = (await getSectionsOverview()).filter((s) => s.isOpen);
+    const [sections, variants] = await Promise.all([
+      getSectionsOverview().then((all) => all.filter((s) => s.isOpen)),
+      listMockVariants(),
+    ]);
 
     return (
       <main className="page stack" style={{ paddingTop: 32, paddingBottom: 32 }}>
@@ -48,9 +52,10 @@ export default async function MockPage() {
 
         <div className="stack-sm">
           <div className="card stack-sm">
-            <strong style={{ fontSize: 16 }}>To&apos;liq mock</strong>
+            <strong style={{ fontSize: 16 }}>To&apos;liq mock — variantlar</strong>
             <p style={{ fontSize: 13, color: "var(--muted)" }}>
-              {MOCK_TOTAL_QUESTIONS} ta savol · 150 daqiqa · rasmiy imtihon formati
+              {MOCK_TOTAL_QUESTIONS} ta savol · 150 daqiqa · rasmiy imtihon formati. Har bir variant — mustahkam
+              savollar to&apos;plami, har safar bir xil bo&apos;ladi.
             </p>
             <div className="stack-sm" style={{ marginTop: 4 }}>
               {COMPOSITION_ROWS.map((row) => (
@@ -60,12 +65,17 @@ export default async function MockPage() {
                 </div>
               ))}
             </div>
-            <form action={startMockAction}>
-              <input type="hidden" name="mode" value="full" />
-              <button type="submit" className="btn btn-primary btn-block">
-                Boshlash
-              </button>
-            </form>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(90px, 1fr))", gap: 8, marginTop: 4 }}>
+              {variants.map((v) => (
+                <form key={v.number} action={startMockAction}>
+                  <input type="hidden" name="mode" value="variant" />
+                  <input type="hidden" name="variantNumber" value={v.number} />
+                  <button type="submit" className="btn btn-primary btn-block">
+                    {v.number}-variant
+                  </button>
+                </form>
+              ))}
+            </div>
           </div>
 
           <div className="card stack-sm">

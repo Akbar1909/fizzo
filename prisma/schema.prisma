@@ -117,6 +117,14 @@ model Review {
   @@index([status])
 }
 
+/** A fixed, numbered question set for the full-format mock (e.g. "1-variant") — generated once and never reshuffled, so everyone taking "N-variant" gets the same test. */
+model MockVariant {
+  id          String   @id @default(cuid())
+  number      Int      @unique
+  questionIds String[]
+  createdAt   DateTime @default(now())
+}
+
 model MockSession {
   id          String    @id @default(cuid())
   userId      String

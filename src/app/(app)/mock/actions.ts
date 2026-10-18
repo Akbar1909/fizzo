@@ -8,6 +8,7 @@ import {
   createFullMockSession,
   createQuickMockSession,
   createSectionMockSession,
+  createVariantMockSession,
   finishMockSession,
   getActiveMockSession,
   saveMockAnswer,
@@ -25,6 +26,10 @@ export async function startMockAction(formData: FormData): Promise<void> {
       const sectionCode = formData.get("sectionCode")?.toString();
       if (!sectionCode) throw new Error("sectionCode is required for a section mock");
       await createSectionMockSession(user.id, sectionCode);
+    } else if (mode === "variant") {
+      const variantNumber = Number(formData.get("variantNumber"));
+      if (!Number.isInteger(variantNumber)) throw new Error("variantNumber is required for a variant mock");
+      await createVariantMockSession(user.id, variantNumber);
     } else {
       await createFullMockSession(user.id);
     }

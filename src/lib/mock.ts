@@ -146,6 +146,35 @@ export async function createSectionMockSession(userId: string, sectionCode: stri
   return createSessionFromRows(userId, rows, `${section.code}-bo'lim: ${section.name}`);
 }
 
+/** A fixed, numbered variant (e.g. "3-variant") — same question set for everyone who takes it. */
+export async function createVariantMockSession(userId: string, variantNumber: number): Promise<MockSession> {
+  const variant = await db.mockVariant.findUnique({ where: { number: variantNumber } });
+  if (!variant) throw new Error(`Mock variant ${variantNumber} not found`);
+
+  const startedAt = new Date();
+  const endsAt = new Date(startedAt.getTime() + durationMsFor(variant.questionIds.length));
+
+  return db.mockSession.create({
+    data: {
+      userId,
+      questionIds: variant.questionIds,
+      startedAt,
+      endsAt,
+      answers: json({ shortBank: false, label: `${variantNumber}-variant` }),
+    },
+  });
+}
+
+export interface MockVariantSummary {
+  number: number;
+  questionCount: number;
+}
+
+export async function listMockVariants(): Promise<MockVariantSummary[]> {
+  const variants = await db.mockVariant.findMany({ orderBy: { number: "asc" } });
+  return variants.map((v) => ({ number: v.number, questionCount: v.questionIds.length }));
+}
+
 export function getMockLabel(session: MockSession): string {
   const answers = session.answers as Record<string, unknown>;
   return typeof answers.label === "string" ? answers.label : "To'liq mock";
