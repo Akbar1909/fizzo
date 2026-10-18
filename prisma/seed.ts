@@ -40,7 +40,7 @@ const SECTIONS: SectionSeed[] = [
     code: "2",
     name: "Molekulyar fizika va termodinamika",
     order: 2,
-    isOpen: false,
+    isOpen: true,
     topics: [
       { code: "2.1", name: "Molekulyar fizika", order: 1 },
       { code: "2.2", name: "Termodinamika", order: 2 },
@@ -51,7 +51,7 @@ const SECTIONS: SectionSeed[] = [
     code: "3",
     name: "Elektr va magnitizm",
     order: 3,
-    isOpen: false,
+    isOpen: true,
     topics: [
       { code: "3.1", name: "Elektrostatika", order: 1 },
       { code: "3.2", name: "O'zgarmas tok qonunlari", order: 2 },
@@ -64,7 +64,7 @@ const SECTIONS: SectionSeed[] = [
     code: "4",
     name: "Optika. Nisbiylik nazariyasi asoslari",
     order: 4,
-    isOpen: false,
+    isOpen: true,
     topics: [
       { code: "4.1", name: "Geometrik optika", order: 1 },
       { code: "4.2", name: "To'lqin optikasi", order: 2 },
@@ -75,7 +75,7 @@ const SECTIONS: SectionSeed[] = [
     code: "5",
     name: "Kvant fizikasi. Atom va yadro fizikasi",
     order: 5,
-    isOpen: false,
+    isOpen: true,
     topics: [
       { code: "5.1", name: "Kvant fizikasi", order: 1 },
       { code: "5.2", name: "Atom va yadro fizikasi", order: 2 },
