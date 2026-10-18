@@ -51,4 +51,7 @@ export const env = {
   get googleSiteVerification(): string | null {
     return process.env.GOOGLE_SITE_VERIFICATION || null;
   },
+  get cronSecret(): string {
+    return required("CRON_SECRET");
+  },
 };
