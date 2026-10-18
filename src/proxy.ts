@@ -33,8 +33,9 @@ export const config = {
   matcher: [
     // "panel" is excluded because it has its own username+password gate
     // (src/lib/dashboard-auth.ts), independent of the Telegram/Google session.
-    // robots.txt / sitemap.xml / opengraph-image must stay public for crawlers,
-    // which never carry a session cookie.
-    "/((?!api|_next/static|_next/image|kirish|panel|robots.txt|sitemap.xml|opengraph-image|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp|webmanifest)$).*)",
+    // robots.txt / sitemap.xml / opengraph-image / *.html (Search Console
+    // ownership files) must stay public for crawlers, which never carry a
+    // session cookie.
+    "/((?!api|_next/static|_next/image|kirish|panel|robots.txt|sitemap.xml|opengraph-image|.*\\.(?:ico|svg|png|jpg|jpeg|gif|webp|webmanifest|html)$).*)",
   ],
 };
